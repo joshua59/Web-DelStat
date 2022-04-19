@@ -17,10 +17,11 @@ return new class extends Migration
             $table->id();
             $table->string('email')->unique();
             $table->string('nama');
-            $table->string('foto_profil');
+            $table->string('foto_profil')->nullable();
             $table->string('role');
             $table->string('jenjang');
             $table->timestamp('email_verified_at')->nullable();
+            $table->string('api_token')->unique()->nullable()->default(null);
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
