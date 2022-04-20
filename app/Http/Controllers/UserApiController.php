@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
-class UserController extends Controller
+class UserApiController extends Controller
 {
     /**
      * Return the user's profile.
@@ -145,6 +145,87 @@ class UserController extends Controller
                 ],
                 'user' => $user,
                 'token' => $token,
+            ]);
+        }
+    }
+
+    /**
+     * Edit user's data excluding password.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function editProfile(Request $request)
+    {
+        $validation = Validator::make($request->all(), [
+            'nama' => 'required',
+            'email' => 'required|email|unique:users,email,' . Auth::user()->id,
+            'jenjang' => 'required',
+        ]);
+
+        if($validation->fails()) {
+            return response()->json([
+                'code' => 400,
+                'message' => $validation->errors(),
+                'user' => null,
+            ]);
+        }
+
+        $user = Auth::user();
+        $user->nama = $request->nama;
+        $user->email = $request->email;
+        $user->jenjang = $request->jenjang;
+        $user->save();
+        return response()->json([
+            'code' => 200,
+            'message' => [
+                'value' => 'Profile updated successfully',
+            ],
+            'user' => $user,
+        ]);
+    }
+
+    /**
+     * Edit user's password only.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse|void
+     */
+    public function editPassword(Request $request)
+    {
+        $validation = Validator::make($request->all(), [
+            'password' => 'required',
+            'new_password' => 'required|min:8',
+            'confirm_password' => 'required|same:new_password',
+        ]);
+
+        if($validation->fails()) {
+            return response()->json([
+                'code' => 400,
+                'message' => $validation->errors(),
+                'user' => null,
+            ]);
+        }
+
+        $user = User::find(Auth::user()->id);
+        if(!User::checkPassword($request->password, $user->password)){
+            return response()->json([
+                'code' => 401,
+                'message' => [
+                    'value' => 'Password is incorrect',
+                ],
+                'user' => null,
+            ]);
+        }
+
+        $user->password = bcrypt($request->new_password);
+        if($user->save()) {
+            return response()->json([
+                'code' => 200,
+                'message' => [
+                    'value' => 'Password updated successfully',
+                ],
+                'user' => $user,
             ]);
         }
     }
