@@ -62,7 +62,7 @@ class UserApiController extends Controller
 
         // After creating the user, return the user in JSON format
         return response()->json([
-            'code' => 200,
+            'code' => 201,
             'message' => [
                 'value' => 'User created successfully.',
             ],

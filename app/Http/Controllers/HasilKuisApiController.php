@@ -87,7 +87,7 @@ class HasilKuisApiController extends Controller
         ]);
 
         return response()->json([
-            'code' => 200,
+            'code' => 201,
             'message' => [
                 'value' => 'Hasil kuis stored successfully',
             ],
