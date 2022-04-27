@@ -4,6 +4,7 @@ use App\Http\Controllers\AnalisisDataApiController;
 use App\Http\Controllers\UserApiController;
 use App\Http\Controllers\HasilKuisApiController;
 use App\Http\Controllers\LiteraturApiController;
+use App\Http\Controllers\MateriApiController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -27,6 +28,10 @@ Route::post('/register', [UserApiController::class, 'register']);
 Route::get('/literatur', [LiteraturApiController::class, 'index']);
 Route::get('/literatur/{id}', [LiteraturApiController::class, 'show']);
 /* End of Unauthenticated LiteraturApiController */
+
+/* Unauthenticated MaterialApiController */
+Route::get('/materi/{id}', [MateriApiController::class, 'show']);
+/* End of Unauthenticated MaterialApiController */
 
 Route::middleware(['auth:api'])->group(function () {
     /* Authenticated UserApiController */
@@ -55,6 +60,10 @@ Route::middleware(['auth:api'])->group(function () {
     Route::put("/analisisdata/{id}", [AnalisisDataApiController::class, 'update']);
     Route::put("/analisisdata/cancel/{id}", [AnalisisDataApiController::class, 'cancelOrderAnalisisData']);
     /* End of AnalisisDataApiController */
+
+    /* Authenticated MateriApiController */
+    Route::put("/materi/{id}", [MateriApiController::class, 'update']);
+    /* End of Authenticated MateriApiController */
 });
 
 /*Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

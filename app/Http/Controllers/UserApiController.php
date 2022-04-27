@@ -56,7 +56,7 @@ class UserApiController extends Controller
             'nama' => $request->nama,
             'email' => $request->email,
             'password' => bcrypt($request->password),
-             'role' => 'Siswa',
+            'role' => 'Siswa',
             'jenjang' => $request->jenjang,
         ]);
 
