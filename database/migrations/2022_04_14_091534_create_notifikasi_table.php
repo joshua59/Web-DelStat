@@ -20,7 +20,11 @@ return new class extends Migration
             $table->foreign('id_user')->references('id')->on('users');
             $table->unsignedBigInteger("id_literatur")->nullable();
             $table->foreign("id_literatur")->references("id")->on("literatur");
+            $table->unsignedBigInteger("id_analisis_data")->nullable();
+            $table->foreign("id_analisis_data")->references("id")->on("analisis_data");
+            $table->boolean("sudah_dibaca")->default(false);
             $table->timestamps();
+            $table->timestamp('read_at')->nullable()->default(null);
         });
     }
 

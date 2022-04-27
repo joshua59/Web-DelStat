@@ -5,6 +5,7 @@ use App\Http\Controllers\UserApiController;
 use App\Http\Controllers\HasilKuisApiController;
 use App\Http\Controllers\LiteraturApiController;
 use App\Http\Controllers\MateriApiController;
+use App\Http\Controllers\NotifikasiApiController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -64,6 +65,10 @@ Route::middleware(['auth:api'])->group(function () {
     /* Authenticated MateriApiController */
     Route::put("/materi/{id}", [MateriApiController::class, 'update']);
     /* End of Authenticated MateriApiController */
+
+    /* NotifikasiApiController */
+    Route::get("/notifikasi", [NotifikasiApiController::class, 'index']);
+    /* End of NotifikasiApiController */
 });
 
 /*Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

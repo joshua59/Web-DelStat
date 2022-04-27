@@ -38,6 +38,7 @@ class UserApiController extends Controller
         $validation = Validator::make($request->all(), [
             'nama' => 'required|string',
             'email' => 'required|email|unique:users',
+            'no_hp' => 'required|string|unique:users|min:10|max:15',
             'password' => 'required|confirmed',
             'jenjang' => 'required|string',
         ]);
@@ -55,6 +56,7 @@ class UserApiController extends Controller
         $user = User::create([
             'nama' => $request->nama,
             'email' => $request->email,
+            'no_hp' => $request->no_hp,
             'password' => bcrypt($request->password),
             'role' => 'Siswa',
             'jenjang' => $request->jenjang,
@@ -160,6 +162,7 @@ class UserApiController extends Controller
         $validation = Validator::make($request->all(), [
             'nama' => 'required',
             'email' => 'required|email|unique:users,email,' . Auth::user()->id,
+            'no_hp' => 'required|string|min:10|max:15|unique:users,no_hp,' . Auth::user()->id,
             'jenjang' => 'required',
         ]);
 
@@ -174,6 +177,7 @@ class UserApiController extends Controller
         $user = Auth::user();
         $user->nama = $request->nama;
         $user->email = $request->email;
+        $user->no_hp = $request->no_hp;
         $user->jenjang = $request->jenjang;
         $user->save();
         return response()->json([

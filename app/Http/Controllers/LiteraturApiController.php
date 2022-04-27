@@ -99,9 +99,14 @@ class LiteraturApiController extends Controller
 
         /* Saving file to directory */
         $this->extracted($request, $literatur);
-        /* End of saving data */
+        /* End of saving file to directory */
 
         $literatur->save();
+        /* End of saving data */
+
+        /* Creating notification for Siswa to inform new Literatur added */
+        NotifikasiApiController::newLiteratur($literatur->id);
+        /* End of creating notification */
 
         return response()->json([
             'code' => 201,
