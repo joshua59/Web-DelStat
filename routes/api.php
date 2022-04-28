@@ -6,6 +6,7 @@ use App\Http\Controllers\HasilKuisApiController;
 use App\Http\Controllers\LiteraturApiController;
 use App\Http\Controllers\MateriApiController;
 use App\Http\Controllers\NotifikasiApiController;
+use App\Http\Controllers\ChatRoomApiController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -69,6 +70,13 @@ Route::middleware(['auth:api'])->group(function () {
     /* NotifikasiApiController */
     Route::get("/notifikasi", [NotifikasiApiController::class, 'index']);
     /* End of NotifikasiApiController */
+
+    /* ChatRoomApiController */
+    Route::get("/chatroom", [ChatRoomApiController::class, 'index']);
+    Route::post("/chatroom/store", [ChatRoomApiController::class, 'storeNewChatRoom']);
+    Route::get("/chatroom/{id}", [ChatRoomApiController::class, 'show']);
+    Route::post("/chatroom/{id}/store", [ChatRoomApiController::class, 'storeNewChat']);
+    /* End of ChatRoomApiController */
 });
 
 /*Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
