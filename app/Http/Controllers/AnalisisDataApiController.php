@@ -21,9 +21,7 @@ class AnalisisDataApiController extends Controller
             $analisisData = AnalisisData::getAllAnalisisData();
             return response()->json([
                 'code' => 200,
-                'message' => [
-                    'value' => 'All Analisis Data retrieved successfully',
-                ],
+                'message' => 'All Analisis Data retrieved successfully',
                 'analisisData' => $analisisData,
             ]);
         }
@@ -31,9 +29,7 @@ class AnalisisDataApiController extends Controller
         $analisisData = AnalisisData::getAllAnalisisDataPrivate(Auth::user()->id);
         return response()->json([
             'code' => 200,
-            'message' => [
-                'value' => 'All Analisis Data retrieved successfully',
-            ],
+            'message' => 'All Analisis Data retrieved successfully',
             'analisisData' => $analisisData,
         ]);
     }
@@ -56,7 +52,8 @@ class AnalisisDataApiController extends Controller
         if ($validation->fails()) {
             return response()->json([
                 'code'=> 400,
-                'message' => $validation->errors(),
+                'message' => 'Analisis Data validation failed',
+                'errors' => $validation->errors(),
                 'analisisData' => null,
             ]);
         }
@@ -80,9 +77,7 @@ class AnalisisDataApiController extends Controller
 
         return response()->json([
             'code' => 200,
-            'message' => [
-                'value' => 'Analisis Data created successfully',
-            ],
+            'message' => 'Analisis Data created successfully',
             'analisisData' => $analisisData,
         ]);
     }
@@ -100,9 +95,7 @@ class AnalisisDataApiController extends Controller
         if(!$analisisData){
             return response()->json([
                 'code' => 404,
-                'message' => [
-                    'value' => 'Analisis Data not found',
-                ],
+                'message' => 'Analisis Data not found',
                 'analisisData' => null,
             ]);
         }
@@ -111,9 +104,7 @@ class AnalisisDataApiController extends Controller
         if(Auth::user()->role == 'Siswa' && $analisisData->id_user != Auth::user()->id){
             return response()->json([
                 'code' => 403,
-                'message' => [
-                    'value' => 'Forbidden',
-                ],
+                'message' => 'Forbidden',
                 'analisisData' => null,
             ]);
         }
@@ -121,9 +112,7 @@ class AnalisisDataApiController extends Controller
         // If the data exists and the user has access to it then return 200 with the data
         return response()->json([
             'code' => 200,
-            'message' => [
-                'value' => 'Analisis Data retrieved successfully',
-            ],
+            'message' => 'Analisis Data retrieved successfully',
             'analisisData' => $analisisData,
         ]);
     }
@@ -145,7 +134,8 @@ class AnalisisDataApiController extends Controller
         if ($validation->fails()) {
             return response()->json([
                 'code'=> 400,
-                'message' => $validation->errors(),
+                'message' => 'Analisis Data validation failed',
+                'errors' => $validation->errors(),
                 'analisisData' => null,
             ]);
         }
@@ -156,9 +146,7 @@ class AnalisisDataApiController extends Controller
         if(!$analisisData){
             return response()->json([
                 'code' => 404,
-                'message' => [
-                    'value' => 'Analisis Data not found',
-                ],
+                'message' => 'Analisis Data not found',
                 'analisisData' => null,
             ]);
         }
@@ -167,9 +155,7 @@ class AnalisisDataApiController extends Controller
         if(Auth::user()->role == 'Siswa' && $analisisData->id_user != Auth::user()->id){
             return response()->json([
                 'code' => 403,
-                'message' => [
-                    'value' => 'Forbidden',
-                ],
+                'message' => 'Forbidden',
                 'analisisData' => null,
             ]);
         }
@@ -180,9 +166,7 @@ class AnalisisDataApiController extends Controller
 
         return response()->json([
             'code' => 200,
-            'message' => [
-                'value' => 'Analisis Data updated successfully',
-            ],
+            'message' => 'Analisis Data updated successfully',
             'analisisData' => $analisisData,
         ]);
     }
@@ -203,9 +187,7 @@ class AnalisisDataApiController extends Controller
         if(!$analisisData){
             return response()->json([
                 'code' => 404,
-                'message' => [
-                    'value' => 'Analisis Data not found',
-                ],
+                'message' => 'Analisis Data not found',
                 'analisisData' => null,
             ]);
         }
@@ -214,9 +196,7 @@ class AnalisisDataApiController extends Controller
         if(Auth::user()->role == 'Siswa' && $analisisData->id_user != Auth::user()->id){
             return response()->json([
                 'code' => 403,
-                'message' => [
-                    'value' => 'Forbidden',
-                ],
+                'message' => 'Forbidden',
                 'analisisData' => null,
             ]);
         }
@@ -227,9 +207,7 @@ class AnalisisDataApiController extends Controller
 
         return response()->json([
             'code' => 200,
-            'message' => [
-                'value' => 'Analisis Data cancelled successfully',
-            ],
+            'message' => 'Analisis Data cancelled successfully',
             'analisisData' => $analisisData,
         ]);
     }

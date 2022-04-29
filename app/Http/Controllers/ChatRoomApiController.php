@@ -42,9 +42,7 @@ class ChatRoomApiController extends Controller
         // Returning the chat rooms
         return response()->json([
             'code' => 200,
-            'message' => [
-                'value' => 'All chat rooms retrieved successfully',
-            ],
+            'message' => 'All chat rooms retrieved successfully',
             'chatRoom' => $chatRoom,
         ]);
     }
@@ -69,9 +67,7 @@ class ChatRoomApiController extends Controller
         if (Auth::user()->id == $request->id_user) {
             return response()->json([
                 'code' => 400,
-                'message' => [
-                    'value' => 'You cannot chat with yourself',
-                ],
+                'message' => 'You cannot chat with yourself',
                 'chatRoom' => $chatRoom,
             ]);
         }
@@ -81,9 +77,7 @@ class ChatRoomApiController extends Controller
             if ($chatRoom) {
                 return response()->json([
                     'code' => 400,
-                    'message' => [
-                        'value' => 'Chat room already exists',
-                    ],
+                    'message' => 'Chat room already exists',
                     'chatRoom' => $chatRoom,
                 ]);
             }
@@ -99,9 +93,7 @@ class ChatRoomApiController extends Controller
             if ($chatRoom) {
                 return response()->json([
                     'code' => 400,
-                    'message' => [
-                        'value' => 'Chat room already exists',
-                    ],
+                    'message' => 'Chat room already exists',
                     'chatRoom' => $chatRoom,
                 ]);
             }
@@ -114,9 +106,7 @@ class ChatRoomApiController extends Controller
 
         return response()->json([
             'code' => 200,
-            'message' => [
-                'value' => 'Chat room created successfully',
-            ],
+            'message' => 'Chat room created successfully',
             'chatRoom' => $chatRoom,
         ]);
     }
@@ -134,9 +124,7 @@ class ChatRoomApiController extends Controller
         if (!$chatRoom) {
             return response()->json([
                 'code' => 404,
-                'message' => [
-                    'value' => 'Chat room not found',
-                ],
+                'message' => 'Chat room not found',
                 'chatRoom' => null,
             ]);
         }
@@ -145,9 +133,7 @@ class ChatRoomApiController extends Controller
             if ($chatRoom->id_user_2 != Auth::user()->id) {
                 return response()->json([
                     'code' => 400,
-                    'message' => [
-                        'value' => 'Chat room not found',
-                    ],
+                    'message' => 'Chat room not found',
                     'chatRoom' => $chatRoom,
                 ]);
             }
@@ -159,9 +145,7 @@ class ChatRoomApiController extends Controller
             if ($chatRoom->id_user_1 != Auth::user()->id) {
                 return response()->json([
                     'code' => 400,
-                    'message' => [
-                        'value' => 'Chat room not found',
-                    ],
+                    'message' => 'Chat room not found',
                     'chatRoom' => $chatRoom,
                 ]);
             }
@@ -171,9 +155,7 @@ class ChatRoomApiController extends Controller
 
         return response()->json([
             'code' => 200,
-            'message' => [
-                'value' => 'Chat room retrieved successfully',
-            ],
+            'message' => 'Chat room retrieved successfully',
             'chatRoom' => $chatRoom,
             'chats' => ChatApiController::showAllChatsInChatRoom($chatRoom->id, $chatRoom->id_user_1, $chatRoom->id_user_2),
         ]);
@@ -196,7 +178,8 @@ class ChatRoomApiController extends Controller
         if ($validation->fails()) {
             return response()->json([
                 'code' => 400,
-                'pesan' => $validation->errors(),
+                'message' => 'Validation failed',
+                'errors' => $validation->errors(),
                 'chatRoom' => null,
                 'chat' => null,
             ]);
@@ -207,10 +190,9 @@ class ChatRoomApiController extends Controller
         if (!$chatRoom) {
             return response()->json([
                 'code' => 404,
-                'message' => [
-                    'value' => 'Chat room not found',
-                ],
+                'message' => 'Chat room not found',
                 'chatRoom' => null,
+                'chat' => null,
             ]);
         }
 
@@ -218,10 +200,9 @@ class ChatRoomApiController extends Controller
             if ($chatRoom->id_user_2 != Auth::user()->id) {
                 return response()->json([
                     'code' => 400,
-                    'message' => [
-                        'value' => 'Chat room not found',
-                    ],
+                    'message' => 'Chat room not found',
                     'chatRoom' => $chatRoom,
+                    'chat' => null,
                 ]);
             }
         }
@@ -230,10 +211,9 @@ class ChatRoomApiController extends Controller
             if ($chatRoom->id_user_1 != Auth::user()->id) {
                 return response()->json([
                     'code' => 400,
-                    'message' => [
-                        'value' => 'Chat room not found',
-                    ],
+                    'message' => 'Chat room not found',
                     'chatRoom' => $chatRoom,
+                    'chat' => null,
                 ]);
             }
         }
@@ -249,9 +229,7 @@ class ChatRoomApiController extends Controller
 
         return response()->json([
             'code' => 200,
-            'message' => [
-                'value' => 'Chat created successfully',
-            ],
+            'message' => 'Chat created successfully',
             'chatRoom' => $chatRoom,
             'chat' => $chat,
         ]);

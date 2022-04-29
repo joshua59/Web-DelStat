@@ -57,7 +57,7 @@ class HasilKuis extends Model
      * @param int $id_user
      * @return mixed
      */
-    public function getAllHasilKuisByIdKuisPrivate(int $id_kuis, int $id_user)
+    public static function getAllHasilKuisByIdKuisPrivate(int $id_kuis, int $id_user)
     {
         return HasilKuis::where('id_kuis', $id_kuis)
             ->where('id_user', $id_user)

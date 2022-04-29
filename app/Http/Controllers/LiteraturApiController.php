@@ -19,9 +19,7 @@ class LiteraturApiController extends Controller
         $literatur = Literatur::getAllLiteratur();
         return response()->json([
             'code' => 200,
-            'message' => [
-                'value' => 'All literatur retrieved successfully.',
-            ],
+            'message' => 'All literatur retrieved successfully.',
             'literatur' => $literatur,
         ]);
     }
@@ -39,18 +37,14 @@ class LiteraturApiController extends Controller
         if(!$literatur){
             return response()->json([
                 'code' => 404,
-                'message' => [
-                    'value' => 'Literatur not found.',
-                ],
+                'message' => 'Literatur not found.',
                 'literatur' => null,
             ]);
         }
 
         return response()->json([
             'code' => 200,
-            'message' => [
-                'value' => 'Literatur retrieved successfully.',
-            ],
+            'message' => 'Literatur retrieved successfully.',
             'literatur' => $literatur,
         ]);
     }
@@ -66,9 +60,7 @@ class LiteraturApiController extends Controller
         if (Auth::user()->role != 'Dosen') {
             return response()->json([
                 'code' => 401,
-                'message' => [
-                    'value' => 'You are not authorized to access this resource.',
-                ],
+                'message' => 'You are not authorized to access this resource.',
                 'literatur' => null,
             ]);
         }
@@ -84,7 +76,8 @@ class LiteraturApiController extends Controller
         if ($validation->fails()) {
             return response()->json([
                 'code' => 400,
-                'message' => $validation->errors(),
+                'message' => 'Literatur validation failed.',
+                'errors' => $validation->errors(),
                 'literatur' => null,
             ]);
         }
@@ -110,9 +103,7 @@ class LiteraturApiController extends Controller
 
         return response()->json([
             'code' => 201,
-            'message' => [
-                'value' => 'Literatur created successfully.',
-            ],
+            'message' => 'Literatur created successfully.',
             'literatur' => $literatur,
         ]);
     }
@@ -129,9 +120,7 @@ class LiteraturApiController extends Controller
         if (Auth::user()->role != 'Dosen') {
             return response()->json([
                 'code' => 401,
-                'message' => [
-                    'value' => 'You are not authorized to access this resource.',
-                ],
+                'message' => 'You are not authorized to access this resource.',
                 'literatur' => null,
             ]);
         }
@@ -147,7 +136,8 @@ class LiteraturApiController extends Controller
         if ($validation->fails()) {
             return response()->json([
                 'code' => 400,
-                'message' => $validation->errors(),
+                'message' => 'Literatur validation failed.',
+                'errors' => $validation->errors(),
                 'literatur' => null,
             ]);
         }
@@ -157,9 +147,7 @@ class LiteraturApiController extends Controller
         if(!$literatur) {
             return response()->json([
                 'code' => 404,
-                'message' => [
-                    'value' => 'Literatur not found.',
-                ],
+                'message' => 'Literatur not found.',
                 'literatur' => null,
             ]);
         }
@@ -185,9 +173,7 @@ class LiteraturApiController extends Controller
 
         return response()->json([
             'code' => 200,
-            'message' => [
-                'value' => 'Literatur updated successfully.',
-            ],
+            'message' => 'Literatur updated successfully.',
             'literatur' => $literatur,
         ]);
     }
@@ -203,9 +189,7 @@ class LiteraturApiController extends Controller
         if (Auth::user()->role != 'Dosen') {
             return response()->json([
                 'code' => 401,
-                'message' => [
-                    'value' => 'You are not authorized to access this resource.',
-                ],
+                'message' => 'You are not authorized to access this resource.',
                 'literatur' => null,
             ]);
         }
@@ -215,9 +199,7 @@ class LiteraturApiController extends Controller
         if (!$literatur) {
             return response()->json([
                 'code' => 404,
-                'message' => [
-                    'value' => 'Literatur not found.',
-                ],
+                'message' => 'Literatur not found.',
                 'literatur' => null,
             ]);
         }
@@ -227,9 +209,7 @@ class LiteraturApiController extends Controller
 
         return response()->json([
             'code' => 200,
-            'message' => [
-                'value' => 'Literatur deleted successfully.',
-            ],
+            'message' => 'Literatur deleted successfully.',
             'literatur' => null,
         ]);
     }
