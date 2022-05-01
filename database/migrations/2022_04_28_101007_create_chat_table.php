@@ -17,6 +17,11 @@ return new class extends Migration
             $table->id();
             $table->string("role");
             $table->string("pesan");
+            $table->boolean('sudah_dibaca')->default(false);
+            $table->timestamp('read_at')->nullable()->default(null);
+
+            $table->unsignedBigInteger('id_chat_room');
+            $table->foreign('id_chat_room')->references('id')->on('chat_room')->onDelete('cascade'); // If chat_room is deleted, the chat will be deleted as well
             $table->unsignedBigInteger('id_user');
             $table->foreign('id_user')->references('id')->on('users');
             $table->timestamps();

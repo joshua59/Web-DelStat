@@ -1,13 +1,40 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Artisan;
-use App\Http\Controllers\OfficeController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\UserController;
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
+|
+*/
 
-Route::group(['domain' => ''], function() {
-    Route::prefix('')->name('office.')->group(function(){
-        Route::get('/home',[OfficeController::class, 'index']);
-        Route::get('/login',[OfficeController::class, 'auth']);
-        Route::get('/users',[OfficeController::class, 'users'])->name('users');
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
+
+Route::get('auth',[AuthController::class, 'index'])->name('auth');
+Route::post('login',[AuthController::class, 'do_login'])->name('login');
+
+Route::group(['middleware' => 'auth:web'], function () {
+    Route::get('logout',[AuthController::class, 'do_logout'])->name('logout');
+});
+Route::group(['middleware' => 'auth:web','verified'], function () {
+    Route::get('/', function(){
+        return redirect()->route('home');
     });
+    Route::get('home',[HomeController::class, 'index'])->name('home');
+    // Route::get('{users:nama}', [HomeController::class,'show']);
+
+    Route::get('users',[UserController::class, 'index'])->name('users');
+    Route::post('users/store',[UserController::class, 'store'])->name('users_store');
+
+    
 });

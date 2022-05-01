@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Facades\Hash;
 
 class User extends Authenticatable
 {
@@ -20,6 +21,7 @@ class User extends Authenticatable
     protected $fillable = [
         'nama',
         'email',
+        'no_hp',
         'password',
         'foto_profil',
         'role',
@@ -34,6 +36,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'api_token',
     ];
 
     /**
@@ -44,4 +47,16 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * Check password given by user with the encrypted password
+     * from user that is found using the already found email.
+     *
+     * @param $password
+     * @return bool
+     */
+    public static function checkPassword($password, $encryptedPassword): bool
+    {
+        return Hash::check($password, $encryptedPassword);
+    }
 }
