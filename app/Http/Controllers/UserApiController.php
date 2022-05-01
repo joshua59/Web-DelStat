@@ -39,6 +39,7 @@ class UserApiController extends Controller
             'no_hp' => 'required|string|unique:users|min:10|max:15',
             'password' => 'required|confirmed',
             'jenjang' => 'required|string',
+            'foto_profil' => 'image|mimes:jpeg,png,jpg',
         ]);
 
         // if validation fails, return error message in JSON format
@@ -52,14 +53,25 @@ class UserApiController extends Controller
         }
 
         // If validation passes, create a new user
-        $user = User::create([
-            'nama' => $request->nama,
-            'email' => $request->email,
-            'no_hp' => $request->no_hp,
-            'password' => bcrypt($request->password),
-            'role' => 'Siswa',
-            'jenjang' => $request->jenjang,
-        ]);
+        $user = new User();
+        $user->nama = $request->nama;
+        $user->email = $request->email;
+        $user->no_hp = $request->no_hp;
+        $user->password = bcrypt($request->password);
+        $user->jenjang = $request->jenjang;
+        $user->role = 'Siswa';
+        $user->foto_profil = User::$FILE_DESTINATION . '/' . 'default.svg';
+
+        if($request->hasFile('foto_profil')) {
+            $file = $request->file('foto_profil');
+            $extension = $file->getClientOriginalExtension();
+            $filename = preg_replace('/\s+/', '', $request->nama) . '.' . $extension;
+            $file->move(User::$FILE_DESTINATION, $filename);
+
+            $user->foto_profil = User::$FILE_DESTINATION . '/' . $filename;
+        }
+
+        $user->save();
 
         // After creating the user, return the user in JSON format
         return response()->json([
@@ -156,6 +168,7 @@ class UserApiController extends Controller
             'email' => 'required|email|unique:users,email,' . Auth::user()->id,
             'no_hp' => 'required|string|min:10|max:15|unique:users,no_hp,' . Auth::user()->id,
             'jenjang' => 'required',
+            'foto_profil' => 'image|mimes:jpeg,png,jpg',
         ]);
 
         if($validation->fails()) {
@@ -172,6 +185,24 @@ class UserApiController extends Controller
         $user->email = $request->email;
         $user->no_hp = $request->no_hp;
         $user->jenjang = $request->jenjang;
+
+        if($request->hasFile('foto_profil')) {
+            $file = $request->file('foto_profil');
+            $extension = $file->getClientOriginalExtension();
+            $filename = preg_replace('/\s+/', '', $request->nama) . '.' . $extension;
+
+            if($user->foto_profil == User::$FILE_DESTINATION . '/' . 'default.svg') {
+                $user->foto_profil = User::$FILE_DESTINATION . '/' . $filename;
+            }
+            else {
+                unlink($user->foto_profil);
+                $user->foto_profil = User::$FILE_DESTINATION . '/' . $filename;
+            }
+
+            $file->move(User::$FILE_DESTINATION, $filename);
+            $user->foto_profil = User::$FILE_DESTINATION . '/' . $filename;
+        }
+
         $user->save();
         return response()->json([
             'code' => 200,

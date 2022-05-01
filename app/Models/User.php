@@ -49,6 +49,12 @@ class User extends Authenticatable
     ];
 
     /**
+     * The attributes that define directory for uploaded files of this model.
+     * @var string
+     */
+    public static string $FILE_DESTINATION = 'uploaded/profile-pictures';
+
+    /**
      * Check password given by user with the encrypted password
      * from user that is found using the already found email.
      *
