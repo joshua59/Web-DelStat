@@ -25,6 +25,7 @@ class UsersSeeder extends Seeder
             'no_hp' => '08123456791',
             'password' => bcrypt('12345678'),
             'jenjang' => 'Siswa',
+            'foto_profil' => User::$FILE_DESTINATION . '/' . 'default.svg',
             'role' => 'Dosen',
         ]);
 
@@ -34,6 +35,7 @@ class UsersSeeder extends Seeder
             'no_hp' => '08123456792',
             'password' => bcrypt('12345678'),
             'jenjang' => 'Siswa',
+            'foto_profil' => User::$FILE_DESTINATION . '/' . 'default.svg',
             'role' => 'Dosen',
         ]);
 
@@ -43,6 +45,7 @@ class UsersSeeder extends Seeder
             'no_hp' => '08123456793',
             'password' => bcrypt('12345678'),
             'jenjang' => 'Siswa',
+            'foto_profil' => User::$FILE_DESTINATION . '/' . 'default.svg',
             'role' => 'Dosen',
         ]);
 
@@ -53,6 +56,7 @@ class UsersSeeder extends Seeder
             'no_hp' => '08123456789',
             'password' => bcrypt('12345678'),
             'jenjang' => 'Siswa',
+            'foto_profil' => User::$FILE_DESTINATION . '/' . 'default.svg',
             'role' => 'Siswa',
         ]);
 
@@ -62,6 +66,7 @@ class UsersSeeder extends Seeder
             'no_hp' => '08123456788',
             'password' => bcrypt('12345678'),
             'jenjang' => 'Siswa',
+            'foto_profil' => User::$FILE_DESTINATION . '/' . 'default.svg',
             'role' => 'Siswa',
         ]);
 
@@ -71,6 +76,7 @@ class UsersSeeder extends Seeder
             'no_hp' => '08123456787',
             'password' => bcrypt('12345678'),
             'jenjang' => 'Siswa',
+            'foto_profil' => User::$FILE_DESTINATION . '/' . 'default.svg',
             'role' => 'Siswa',
         ]);
 
@@ -80,6 +86,7 @@ class UsersSeeder extends Seeder
             'no_hp' => '08123456786',
             'password' => bcrypt('12345678'),
             'jenjang' => 'Siswa',
+            'foto_profil' => User::$FILE_DESTINATION . '/' . 'default.svg',
             'role' => 'Siswa',
         ]);
 
@@ -89,6 +96,7 @@ class UsersSeeder extends Seeder
             'no_hp' => '08123456785',
             'password' => bcrypt('12345678'),
             'jenjang' => 'Siswa',
+            'foto_profil' => User::$FILE_DESTINATION . '/' . 'default.svg',
             'role' => 'Siswa',
         ]);
     }
