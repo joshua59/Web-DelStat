@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('nama');
             $table->string('foto_profil')->nullable();
             $table->enum('role', ['Admin', 'Dosen', 'Siswa']);
-            $table->string('jenjang');
+            $table->string('jenjang')->default('Mahasiswa');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('api_token')->unique()->nullable()->default(null);
             $table->string('password');

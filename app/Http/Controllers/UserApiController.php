@@ -37,8 +37,8 @@ class UserApiController extends Controller
             'nama' => 'required|string',
             'email' => 'required|email|unique:users',
             'no_hp' => 'required|string|unique:users|min:10|max:15',
-            'password' => 'required|confirmed',
-            'jenjang' => 'required|string',
+            'password' => 'required',
+            'jenjang' => 'string',
             'foto_profil' => 'image|mimes:jpeg,png,jpg',
         ]);
 
@@ -58,7 +58,7 @@ class UserApiController extends Controller
         $user->email = $request->email;
         $user->no_hp = $request->no_hp;
         $user->password = bcrypt($request->password);
-        $user->jenjang = $request->jenjang;
+        /*$user->jenjang = $request->jenjang;*/
         $user->role = 'Siswa';
         $user->foto_profil = User::$FILE_DESTINATION . '/' . 'default.svg';
 
