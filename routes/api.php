@@ -39,6 +39,7 @@ Route::middleware(['auth:api'])->group(function () {
     /* Authenticated UserApiController */
     Route::get('/user', [UserApiController::class, 'index']);
     Route::put('/user', [UserApiController::class, 'editProfile']);
+    Route::post('/user/update', [UserApiController::class, 'editProfile']);
     Route::put('/user/password', [UserApiController::class, 'editPassword']);
     Route::post('/logout', [UserApiController::class, 'logout']);
     /* End of Authenticated UserApiController */

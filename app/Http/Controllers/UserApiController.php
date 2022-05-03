@@ -203,7 +203,7 @@ class UserApiController extends Controller
             $user->foto_profil = User::$FILE_DESTINATION . '/' . $filename;
         }
 
-        $user->save();
+        $user->update();
         return response()->json([
             'code' => 200,
             'message' => 'Profile updated successfully.',
