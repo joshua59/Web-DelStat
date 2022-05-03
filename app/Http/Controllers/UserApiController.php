@@ -60,7 +60,7 @@ class UserApiController extends Controller
         $user->password = bcrypt($request->password);
         /*$user->jenjang = $request->jenjang;*/
         $user->role = 'Siswa';
-        $user->foto_profil = User::$FILE_DESTINATION . '/' . 'default.svg';
+        $user->foto_profil = User::$FILE_DESTINATION . '/' . 'default.jpg';
 
         if($request->hasFile('foto_profil')) {
             $file = $request->file('foto_profil');
@@ -191,7 +191,7 @@ class UserApiController extends Controller
             $extension = $file->getClientOriginalExtension();
             $filename = preg_replace('/\s+/', '', $request->nama) . '.' . $extension;
 
-            if($user->foto_profil == User::$FILE_DESTINATION . '/' . 'default.svg') {
+            if($user->foto_profil == User::$FILE_DESTINATION . '/' . 'default.jpg') {
                 $user->foto_profil = User::$FILE_DESTINATION . '/' . $filename;
             }
             else {
