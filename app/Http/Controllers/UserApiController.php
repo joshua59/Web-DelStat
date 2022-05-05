@@ -221,8 +221,7 @@ class UserApiController extends Controller
     {
         $validation = Validator::make($request->all(), [
             'password' => 'required',
-            'new_password' => 'required|min:8',
-            'confirm_password' => 'required|same:new_password',
+            'new_password' => 'required|min:8|confirmed', // name of fields must be new_password and new_password_confirmation
         ]);
 
         if($validation->fails()) {
