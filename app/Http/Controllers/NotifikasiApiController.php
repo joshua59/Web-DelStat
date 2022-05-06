@@ -87,9 +87,7 @@ class NotifikasiApiController extends Controller
 
         return response()->json([
             'code' => 200,
-            'message' => [
-                'value' => 'Notification data retrieved successfully',
-            ],
+            'message' => 'Notification data retrieved successfully',
             'notifikasi' => $notifikasi,
         ]);
     }

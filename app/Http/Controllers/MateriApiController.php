@@ -21,9 +21,7 @@ class MateriApiController extends Controller
         $materi = Materi::find($id);
         return response()->json([
             'code' => 200,
-            'message' => [
-                'value' => 'Link video retrieved successfully',
-            ],
+            'message' => 'Link video of Materi retrieved successfully',
             'materi' => $materi,
         ]);
     }
@@ -41,9 +39,7 @@ class MateriApiController extends Controller
         if(Auth::user()->role != 'Dosen') {
             return response()->json([
                 'code' => 401,
-                'message' => [
-                    'value' => 'You are not authorized to access this resource.',
-                ],
+                'message' => 'You are not authorized to access this resource.',
                 'materi' => null,
             ]);
         }
@@ -55,7 +51,8 @@ class MateriApiController extends Controller
         if($validation->fails()) {
             return response()->json([
                 'code' => 400,
-                'message' => $validation->errors(),
+                'message' => 'Materi validation failed',
+                'errors' => $validation->errors(),
                 'materi' => null,
             ]);
         }
@@ -65,9 +62,7 @@ class MateriApiController extends Controller
         if(!$materi) {
             return response()->json([
                 'code' => 404,
-                'message' => [
-                    'value' => 'Materi with that id is not found.',
-                ],
+                'message' => 'Materi with that id is not found.',
                 'materi' => null,
             ]);
         }
@@ -78,9 +73,7 @@ class MateriApiController extends Controller
 
         return response()->json([
             'code' => 204,
-            'message' => [
-                'value' => 'Link video updated successfully',
-            ],
+            'message' => 'Link video of Materi updated successfully',
             'materi' => $materi,
         ]);
     }

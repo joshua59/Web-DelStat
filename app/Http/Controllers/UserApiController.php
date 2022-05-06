@@ -19,9 +19,7 @@ class UserApiController extends Controller
     {
         return response()->json([
             'code' => 200,
-            'message' => [
-                'value' => 'User retrieved successfully.',
-            ],
+            'message' => 'User retrieved successfully.',
             'user' => $request->user(),
         ]);
     }
@@ -47,7 +45,8 @@ class UserApiController extends Controller
         if($validation->fails()) {
             return response()->json([
                 'code' => 400,
-                'message' => $validation->errors(),
+                'message' => 'Bad Request',
+                'errors' => $validation->errors(),
                 'user' => null,
             ]);
         }
@@ -65,9 +64,7 @@ class UserApiController extends Controller
         // After creating the user, return the user in JSON format
         return response()->json([
             'code' => 201,
-            'message' => [
-                'value' => 'User created successfully.',
-            ],
+            'message' => 'User created successfully.',
             'user' => $user,
         ]);
     }
@@ -90,7 +87,8 @@ class UserApiController extends Controller
         if($validation->fails()) {
             return response()->json([
                 'code' => 400,
-                'message' => $validation->errors(),
+                'message' => 'Bad Request',
+                'errors' => $validation->errors(),
                 'user' => null,
             ]);
         }
@@ -101,9 +99,7 @@ class UserApiController extends Controller
         if(!$user) {
             return response()->json([
                 'code' => 401,
-                'message' => [
-                    'value' => 'Email does not exist',
-                ],
+                'message' => 'Email does not exist.',
                 'user' => null,
             ]);
         }
@@ -121,9 +117,7 @@ class UserApiController extends Controller
         if(!User::checkPassword($request->password, $user->password)) {
             return response()->json([
                 'code' => 401,
-                'message' => [
-                    'value' => 'Password is incorrect',
-                ],
+                'message' => 'Password is incorrect.',
                 'user' => null,
             ]);
         }
@@ -142,9 +136,7 @@ class UserApiController extends Controller
             ])->save();
             return response()->json([
                 'code' => 200,
-                'message' => [
-                    'value' => 'Login successful',
-                ],
+                'message' => 'Login successful.',
                 'user' => $user,
                 'token' => $token,
             ]);
@@ -169,7 +161,8 @@ class UserApiController extends Controller
         if($validation->fails()) {
             return response()->json([
                 'code' => 400,
-                'message' => $validation->errors(),
+                'message' => 'Failed to edit profile.',
+                'errors' => $validation->errors(),
                 'user' => null,
             ]);
         }
@@ -182,9 +175,7 @@ class UserApiController extends Controller
         $user->save();
         return response()->json([
             'code' => 200,
-            'message' => [
-                'value' => 'Profile updated successfully',
-            ],
+            'message' => 'Profile updated successfully.',
             'user' => $user,
         ]);
     }
@@ -206,7 +197,8 @@ class UserApiController extends Controller
         if($validation->fails()) {
             return response()->json([
                 'code' => 400,
-                'message' => $validation->errors(),
+                'message' => 'Failed to update password.',
+                'errors' => $validation->errors(),
                 'user' => null,
             ]);
         }
@@ -215,9 +207,7 @@ class UserApiController extends Controller
         if(!User::checkPassword($request->password, $user->password)){
             return response()->json([
                 'code' => 401,
-                'message' => [
-                    'value' => 'Password is incorrect',
-                ],
+                'message' => 'Password is incorrect.',
                 'user' => null,
             ]);
         }
@@ -226,9 +216,7 @@ class UserApiController extends Controller
         if($user->save()) {
             return response()->json([
                 'code' => 200,
-                'message' => [
-                    'value' => 'Password updated successfully',
-                ],
+                'message' => 'Password updated successfully.',
                 'user' => $user,
             ]);
         }
@@ -249,9 +237,7 @@ class UserApiController extends Controller
 
         return response()->json([
             'code' => 200,
-            'message' => [
-                'value' => 'Logout successful',
-            ],
+            'message' => 'Logged out successfully.',
             'user' => null,
         ]);
     }

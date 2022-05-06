@@ -21,9 +21,7 @@ class HasilKuisApiController extends Controller
             $hasilKuis = HasilKuis::getAllHasilKuis();
             return response()->json([
                 'code' => 200,
-                'message' => [
-                    'value' => 'All Hasil Kuis retrieved successfully',
-                ],
+                'message' => 'All Hasil Kuis retrieved successfully.',
                 'hasilKuis' => $hasilKuis,
             ]);
         }
@@ -31,9 +29,7 @@ class HasilKuisApiController extends Controller
         $hasilKuis = HasilKuis::getAllHasilKuisPrivate(Auth::user()->id);
         return response()->json([
             'code' => 200,
-            'message' => [
-                'value' => 'All Hasil Kuis ' . Auth::user()->nama . ' retrieved successfully ',
-            ],
+            'message' => 'All Hasil Kuis ' . Auth::user()->nama . ' retrieved successfully.',
             'hasilKuis' => $hasilKuis,
         ]);
     }
@@ -53,9 +49,7 @@ class HasilKuisApiController extends Controller
 
             return response()->json([
                 'code' => 200,
-                'message' => [
-                    'value' => 'All Hasil Kuis with id ' . $id_kuis . ' retrieved successfully.',
-                ],
+                'message' => 'All Hasil Kuis with id ' . $id_kuis . ' retrieved successfully.',
                 'hasilKuis' => $hasilKuis,
             ]);
         }
@@ -63,9 +57,7 @@ class HasilKuisApiController extends Controller
         $hasilKuis = HasilKuis::getAllHasilKuisByIdKuisPrivate($id_kuis, Auth::user()->id);
         return response()->json([
             'code' => 200,
-            'message' => [
-                'value' => 'All Hasil Kuis with id ' . $id_kuis . ' of user named ' . Auth::user()->nama . ' retrieved successfully.',
-            ],
+            'message' => 'All Hasil Kuis with id ' . $id_kuis . ' of user named ' . Auth::user()->nama . ' retrieved successfully.',
             'hasilKuis' => $hasilKuis,
         ]);
     }
@@ -88,9 +80,7 @@ class HasilKuisApiController extends Controller
 
         return response()->json([
             'code' => 201,
-            'message' => [
-                'value' => 'Hasil kuis stored successfully',
-            ],
+            'message' => 'Hasil kuis stored successfully',
             'hasilKuis' => $hasilKuis,
         ]);
     }
