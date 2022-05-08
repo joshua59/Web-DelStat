@@ -20,7 +20,7 @@ class LiteraturApiController extends Controller
         return response()->json([
             'code' => 200,
             'message' => 'All literatur retrieved successfully.',
-            'literatur' => $literatur,
+            'literatur_list' => $literatur,
         ]);
     }
 

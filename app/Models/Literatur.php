@@ -52,10 +52,12 @@ class Literatur extends Model
     public static function getLiteraturById(int $id)
     {
         return self::where('id', $id)->first([
-            'id',
+            'id_user',
             'judul',
-            'tag',
             'penulis',
+            'tahun_terbit',
+            'tag',
+            'file',
             'created_at',
             'updated_at',
         ]);

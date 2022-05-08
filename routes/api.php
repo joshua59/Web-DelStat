@@ -52,8 +52,8 @@ Route::middleware(['auth:api'])->group(function () {
 
     /* LiteraturApiController */
     Route::post("/literatur/store", [LiteraturApiController::class, 'store']);
-    Route::put("/literatur/{id}", [LiteraturApiController::class, 'update']);
-    Route::delete("/literatur/{id}", [LiteraturApiController::class, 'destroy']);
+    Route::post("/literatur/update/{id}", [LiteraturApiController::class, 'update']);
+    Route::post("/literatur/delete/{id}", [LiteraturApiController::class, 'destroy']);
     /* End of LiteraturApiController */
 
     /* AnalisisDataApiController */
@@ -65,7 +65,7 @@ Route::middleware(['auth:api'])->group(function () {
     /* End of AnalisisDataApiController */
 
     /* Authenticated MateriApiController */
-    Route::put("/materi/{id}", [MateriApiController::class, 'update']);
+    Route::post("/materi/update/{id}", [MateriApiController::class, 'update']);
     /* End of Authenticated MateriApiController */
 
     /* NotifikasiApiController */
