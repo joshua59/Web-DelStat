@@ -60,8 +60,8 @@ Route::middleware(['auth:api'])->group(function () {
     Route::get("/analisisdata", [AnalisisDataApiController::class, 'index']);
     Route::get("/analisisdata/{id}", [AnalisisDataApiController::class, 'show']);
     Route::post("/analisisdata/store", [AnalisisDataApiController::class, 'store']);
-    Route::put("/analisisdata/{id}", [AnalisisDataApiController::class, 'update']);
-    Route::put("/analisisdata/cancel/{id}", [AnalisisDataApiController::class, 'cancelOrderAnalisisData']);
+    Route::post("/analisisdata/update/{id}", [AnalisisDataApiController::class, 'update']);
+    Route::post("/analisisdata/cancel/{id}", [AnalisisDataApiController::class, 'cancelOrderAnalisisData']);
     /* End of AnalisisDataApiController */
 
     /* Authenticated MateriApiController */

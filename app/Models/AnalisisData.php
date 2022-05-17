@@ -26,24 +26,24 @@ class AnalisisData extends Model
     public static string $FILE_DESTINATION = 'uploaded/analisis_data';
 
     /**
-     * Get all Analisis Data.
+     * Get all Analisis Data sorted by the latest data.
      *
      * @return \Illuminate\Database\Eloquent\Collection
      */
     public static function getAllAnalisisData()
     {
-        return AnalisisData::all();
+        return AnalisisData::latest()->get();
     }
 
     /**
-     * Get all the Analisis Data for a given user.
+     * Get all the Analisis Data for a given user sorted by the latest data.
      *
      * @param int $id_user
      * @return mixed
      */
     public static function getAllAnalisisDataPrivate(int $id_user)
     {
-        return AnalisisData::where('id_user', $id_user)->get();
+        return AnalisisData::latest()->where('id_user', $id_user)->get();
     }
 
     /**

@@ -30,7 +30,7 @@ class AnalisisDataApiController extends Controller
         return response()->json([
             'code' => 200,
             'message' => 'All Analisis Data retrieved successfully',
-            'analisisData' => $analisisData,
+            'listAnalisisData' => $analisisData,
         ]);
     }
 
@@ -46,7 +46,7 @@ class AnalisisDataApiController extends Controller
             'judul' => 'required',
             'deskripsi' => 'required',
             /* 'file' => 'required|file|mimes:pdf,xlsx,xls,doc,docx,ppt,pptx,zip,rar,7z,r,txt,csv', */
-            'file' => 'required|file',
+            'file' => 'required|file|mimes:pdf,xlsx,xls,doc,docx,zip,rar,txt,csv',
         ]);
 
         if ($validation->fails()) {
