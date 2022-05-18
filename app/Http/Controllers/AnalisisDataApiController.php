@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\AnalisisData;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -16,13 +17,14 @@ class AnalisisDataApiController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index(){
-        if(Auth::user()->role == 'Dosen') {
+    public function index()
+    {
+        if (Auth::user()->role == 'Dosen') {
             $analisisData = AnalisisData::getAllAnalisisData();
             return response()->json([
                 'code' => 200,
                 'message' => 'All Analisis Data retrieved successfully',
-                'analisisData' => $analisisData,
+                'listAnalisisData' => $analisisData,
             ]);
         }
 
@@ -51,7 +53,7 @@ class AnalisisDataApiController extends Controller
 
         if ($validation->fails()) {
             return response()->json([
-                'code'=> 400,
+                'code' => 400,
                 'message' => 'Analisis Data validation failed',
                 'errors' => $validation->errors(),
                 'analisisData' => null,
@@ -88,11 +90,13 @@ class AnalisisDataApiController extends Controller
      * @param $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show($id){
+    public function show($id)
+    {
         $analisisData = AnalisisData::getAnalisisDataById($id);
+        $user = User::find($analisisData->id_user);
 
         // If the data doesn't exist then return 404
-        if(!$analisisData){
+        if (!$analisisData) {
             return response()->json([
                 'code' => 404,
                 'message' => 'Analisis Data not found',
@@ -101,7 +105,7 @@ class AnalisisDataApiController extends Controller
         }
 
         // If the data exists but the user doesn't have access to it then return 403
-        if(Auth::user()->role == 'Siswa' && $analisisData->id_user != Auth::user()->id){
+        if (Auth::user()->role == 'Siswa' && $analisisData->id_user != Auth::user()->id) {
             return response()->json([
                 'code' => 403,
                 'message' => 'Forbidden',
@@ -109,6 +113,7 @@ class AnalisisDataApiController extends Controller
             ]);
         }
 
+        $analisisData->user = $user;
         // If the data exists and the user has access to it then return 200 with the data
         return response()->json([
             'code' => 200,
@@ -133,7 +138,7 @@ class AnalisisDataApiController extends Controller
 
         if ($validation->fails()) {
             return response()->json([
-                'code'=> 400,
+                'code' => 400,
                 'message' => 'Analisis Data validation failed',
                 'errors' => $validation->errors(),
                 'analisisData' => null,
@@ -143,7 +148,7 @@ class AnalisisDataApiController extends Controller
         $analisisData = AnalisisData::find($id);
 
         // If the data doesn't exist then return 404
-        if(!$analisisData){
+        if (!$analisisData) {
             return response()->json([
                 'code' => 404,
                 'message' => 'Analisis Data not found',
@@ -152,7 +157,7 @@ class AnalisisDataApiController extends Controller
         }
 
         // If the data exists but the user doesn't have access to it then return 403
-        if(Auth::user()->role == 'Siswa' && $analisisData->id_user != Auth::user()->id){
+        if (Auth::user()->role == 'Siswa' && $analisisData->id_user != Auth::user()->id) {
             return response()->json([
                 'code' => 403,
                 'message' => 'Forbidden',
@@ -165,7 +170,45 @@ class AnalisisDataApiController extends Controller
         $analisisData->save();
 
         return response()->json([
-            'code' => 200,
+            'code' => 204,
+            'message' => 'Analisis Data updated successfully',
+            'analisisData' => $analisisData,
+        ]);
+    }
+
+    /**
+     * Update Status of Analisis Data by its id
+     * This can only by done by User with role Dosen and Admin.
+     *
+     * @param Request $request
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function updateStatus(Request $request, int $id)
+    {
+        if(Auth::user()->role == 'Siswa') {
+            return response()->json([
+                'code' => 403,
+                'message' => 'Forbidden',
+                'analisisData' => null,
+            ]);
+        }
+
+        // Role 'Dosen' and 'Admin' can update status
+        $analisisData = AnalisisData::find($id);
+        if (!$analisisData) {
+            return response()->json([
+                'code' => 404,
+                'message' => 'Analisis Data not found',
+                'analisisData' => null,
+            ]);
+        }
+
+        $analisisData->status = $request->status;
+        $analisisData->save();
+
+        return response()->json([
+            'code' => 204,
             'message' => 'Analisis Data updated successfully',
             'analisisData' => $analisisData,
         ]);
@@ -179,12 +222,12 @@ class AnalisisDataApiController extends Controller
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function cancelOrderAnalisisData(Request $request, int $id)
+    public function cancelOrderAnalisisData(int $id)
     {
         $analisisData = AnalisisData::find($id);
 
         // If the data doesn't exist then return 404
-        if(!$analisisData){
+        if (!$analisisData) {
             return response()->json([
                 'code' => 404,
                 'message' => 'Analisis Data not found',
@@ -193,7 +236,7 @@ class AnalisisDataApiController extends Controller
         }
 
         // If the data exists but the user doesn't have access to it then return 403
-        if(Auth::user()->role == 'Siswa' && $analisisData->id_user != Auth::user()->id){
+        if (Auth::user()->role == 'Siswa' && $analisisData->id_user != Auth::user()->id) {
             return response()->json([
                 'code' => 403,
                 'message' => 'Forbidden',
@@ -202,7 +245,7 @@ class AnalisisDataApiController extends Controller
         }
 
         // If the data exists and the user has access to it then update the data to cancel the order
-        $analisisData->status = $request->status;
+        $analisisData->status = "Dibatalkan";
         $analisisData->save();
 
         return response()->json([
