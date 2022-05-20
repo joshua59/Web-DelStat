@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use \DateTimeInterface;
 
 class AnalisisData extends Model
 {
@@ -55,5 +56,18 @@ class AnalisisData extends Model
     public static function getAnalisisDataById(int $id)
     {
         return AnalisisData::find($id);
+    }
+
+    /**
+     * Prepare a date for array / JSON serialization.
+     *
+     * @param  \DateTimeInterface  $date
+     * @return string
+     */
+    protected function serializeDate(DateTimeInterface $date)
+    {
+        /*return $date->format('d M Y, H:i:s');*/
+        $long = strtotime($date->format('Y-m-d H:i:s'));
+        return (string)$long;
     }
 }

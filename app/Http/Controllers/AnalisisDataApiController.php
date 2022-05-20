@@ -93,7 +93,6 @@ class AnalisisDataApiController extends Controller
     public function show($id)
     {
         $analisisData = AnalisisData::getAnalisisDataById($id);
-        $user = User::find($analisisData->id_user);
 
         // If the data doesn't exist then return 404
         if (!$analisisData) {
@@ -113,6 +112,7 @@ class AnalisisDataApiController extends Controller
             ]);
         }
 
+        $user = User::find($analisisData->id_user);
         $analisisData->user = $user;
         // If the data exists and the user has access to it then return 200 with the data
         return response()->json([

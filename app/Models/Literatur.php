@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use \DateTimeInterface;
 
 class Literatur extends Model
 {
@@ -33,12 +34,20 @@ class Literatur extends Model
      */
     public static function getAllLiteratur()
     {
-        return self::all([
+        /*return self::all([
             'id',
             'judul',
             'tag',
             'penulis',
-            'created_at',
+            'updated_at',
+        ]);*/
+
+        return self::orderBy('updated_at', 'desc')->get([
+            'id',
+            'judul',
+            'tag',
+            'penulis',
+            'tahun_terbit',
             'updated_at',
         ]);
     }
@@ -61,5 +70,18 @@ class Literatur extends Model
             'created_at',
             'updated_at',
         ]);
+    }
+
+    /**
+     * Prepare a date for array / JSON serialization.
+     *
+     * @param  \DateTimeInterface  $date
+     * @return string
+     */
+    protected function serializeDate(DateTimeInterface $date)
+    {
+        /*return $date->format('d M Y, H:i:s');*/
+        $long = strtotime($date->format('Y-m-d H:i:s'));
+        return (string)$long;
     }
 }

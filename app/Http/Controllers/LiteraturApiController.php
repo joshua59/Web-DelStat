@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Literatur;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -42,6 +43,8 @@ class LiteraturApiController extends Controller
             ]);
         }
 
+        $user = User::find($literatur->id_user);
+        $literatur->user = $user;
         return response()->json([
             'code' => 200,
             'message' => 'Literatur retrieved successfully.',
@@ -57,7 +60,7 @@ class LiteraturApiController extends Controller
      */
     public function store(Request $request)
     {
-        if (Auth::user()->role != 'Dosen') {
+        if (Auth::user()->role == 'Siswa') {
             return response()->json([
                 'code' => 401,
                 'message' => 'You are not authorized to access this resource.',
@@ -70,7 +73,7 @@ class LiteraturApiController extends Controller
             'penulis' => 'required',
             'tahun_terbit' => 'required|numeric|digits:4',
             'tag' => 'required',
-            'file' => 'required|mimes:pdf',
+            'file' => 'required|mimes:pdf,doc,docx,ppt,pptx,xls,xlsx,zip,rar,7z',
         ]);
 
         if ($validation->fails()) {
@@ -117,7 +120,7 @@ class LiteraturApiController extends Controller
      */
     public function update(int $id, Request $request)
     {
-        if (Auth::user()->role != 'Dosen') {
+        if (Auth::user()->role == 'Siswa') {
             return response()->json([
                 'code' => 401,
                 'message' => 'You are not authorized to access this resource.',
@@ -130,7 +133,7 @@ class LiteraturApiController extends Controller
             'penulis' => 'required',
             'tahun_terbit' => 'required|numeric|digits:4',
             'tag' => 'required',
-            'file' => 'mimes:pdf',
+            'file' => 'mimes:pdf,doc,docx,ppt,pptx,xls,xlsx,zip,rar,7z|nullable',
         ]);
 
         if ($validation->fails()) {
@@ -156,6 +159,7 @@ class LiteraturApiController extends Controller
         $literatur->penulis = $request->penulis;
         $literatur->tahun_terbit = $request->tahun_terbit;
         $literatur->tag = $request->tag;
+        $literatur->id_user = Auth::user()->id;
 
         // If user sends a new file, then the old file will be deleted and replaced with the new one
         if ($request->file('file')) {
@@ -172,7 +176,7 @@ class LiteraturApiController extends Controller
         $literatur->save();
 
         return response()->json([
-            'code' => 200,
+            'code' => 204,
             'message' => 'Literatur updated successfully.',
             'literatur' => $literatur,
         ]);

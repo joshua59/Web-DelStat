@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\Hash;
+use \DateTimeInterface;
 
 class User extends Authenticatable
 {
@@ -64,5 +65,18 @@ class User extends Authenticatable
     public static function checkPassword($password, $encryptedPassword): bool
     {
         return Hash::check($password, $encryptedPassword);
+    }
+
+    /**
+     * Prepare a date for array / JSON serialization.
+     *
+     * @param  \DateTimeInterface  $date
+     * @return string
+     */
+    protected function serializeDate(DateTimeInterface $date)
+    {
+        /*return $date->format('d M Y, H:i:s');*/
+        $long = strtotime($date->format('Y-m-d H:i:s'));
+        return (string)$long;
     }
 }
