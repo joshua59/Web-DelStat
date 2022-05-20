@@ -15,7 +15,10 @@ return new class extends Migration
     {
         Schema::create('materi', function (Blueprint $table) {
             $table->id();
-            $table->string("link_video");
+            $table->string("link_video_1");
+            $table->string("link_video_2")->nullable();
+            $table->string("link_video_3")->nullable();
+            $table->string("link_video_4")->nullable();
             $table->unsignedBigInteger('id_user');
             $table->foreign('id_user')->references('id')->on('users');
             $table->timestamps();

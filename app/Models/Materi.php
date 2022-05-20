@@ -12,7 +12,10 @@ class Materi extends Model
     protected $table = "materi";
 
     protected $fillable = [
-        'link_video',
+        'link_video_1',
+        'link_video_2',
+        'link_video_3',
+        'link_video_4',
         'id_user',
     ];
 }
