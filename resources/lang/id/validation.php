@@ -34,7 +34,7 @@ return [
     'date_equals' => ':attribute harus berisi tanggal yang sama dengan :date.',
     'date_format' => ':attribute tidak cocok dengan format :format.',
     'different' => ':attribute dan :other harus berbeda.',
-    'digits' => ':attribute harus terdiri dari :digits angka.',
+    'digits' => 'Field :attribute harus terdiri dari :digits angka.',
     'digits_between' => ':attribute harus terdiri dari :min sampai :max angka.',
     'dimensions' => ':attribute tidak memiliki dimensi gambar yang valid.',
     'distinct' => ':attribute memiliki nilai yang duplikat.',

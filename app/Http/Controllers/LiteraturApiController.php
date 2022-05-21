@@ -212,7 +212,7 @@ class LiteraturApiController extends Controller
         $literatur->delete();
 
         return response()->json([
-            'code' => 200,
+            'code' => 204,
             'message' => 'Literatur deleted successfully.',
             'literatur' => null,
         ]);
