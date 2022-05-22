@@ -35,7 +35,7 @@
                 <td class="d-flex align-items-center">
                     <!--begin:: Avatar -->
                     <div class="symbol symbol-circle symbol-50px overflow-hidden me-3">
-                        <a href="storage/{{$item->file}}">
+                        <a href="{{ $item->file }}">
                             <div class="symbol-label">
                                 <i class="bi bi-file-pdf"></i>
                             </div>

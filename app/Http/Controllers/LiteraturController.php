@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Literatur;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\File;
 use Illuminate\Support\Facades\Auth;
@@ -14,7 +15,7 @@ class LiteraturController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function index(Request $request)
     {
@@ -30,7 +31,7 @@ class LiteraturController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function create()
     {
@@ -41,7 +42,7 @@ class LiteraturController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
@@ -60,14 +61,13 @@ class LiteraturController extends Controller
             ]);
         }
         try {
-            $file = request()->file('file')->store("file_literatur");
             $literatur = new Literatur;
             $literatur->judul = $request->judul;
             $literatur->penulis = $request->penulis;
             $literatur->tahun_terbit = $request->tahun_terbit;
             $literatur->tag = $request->tag;
             $literatur->id_user = Auth::user()->id;
-            $literatur->file = $file;
+            $this->extracted($request, $literatur);
             $literatur->save();
             return response()->json([
                 'alert' => 'success',
@@ -96,7 +96,7 @@ class LiteraturController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\Literatur  $literatur
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function edit(Literatur $literatur)
     {
@@ -108,7 +108,7 @@ class LiteraturController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Literatur  $literatur
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, Literatur $literatur)
     {
@@ -140,7 +140,7 @@ class LiteraturController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Literatur  $literatur
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(Literatur $literatur)
     {
@@ -157,5 +157,16 @@ class LiteraturController extends Controller
                 'message' => 'Maaf, sepertinya ada kesalahan, silahkan coba lagi.',
             ]);
         }
+    }
+
+    public function extracted(Request $request, $literatur): void
+    {
+        $file = $request->file('file');
+        $fileExtension = $file->getClientOriginalExtension();
+        $judulWithoutSpace = preg_replace('/\s+/', '', $request->judul);
+        $fileName = $judulWithoutSpace . '-' . date("d-m-Y_H-i-s") . '.' . $fileExtension;
+        $file->move(Literatur::$FILE_DESTINATION, $fileName);
+
+        $literatur->file = Literatur::$FILE_DESTINATION . '/' . $fileName;
     }
 }
