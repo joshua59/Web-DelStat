@@ -21,7 +21,7 @@
         <!--begin::Table body-->
         <tbody class="text-gray-600 fw-bold">
             <!--begin::Table row-->
-            @foreach($user as $user)
+            @foreach($user as $users)
             <tr>
                 <!--begin::Checkbox-->
                 {{-- <td>
@@ -36,57 +36,50 @@
                     <div class="symbol symbol-circle symbol-50px overflow-hidden me-3">
                         <a href="">
                             <div class="symbol-label">
-                                <img src="{{$user->foto_profil}}" alt="" class="w-100" />
+                                <img src="{{asset($users->image)}}" alt="" class="w-100" />
                             </div>
                         </a>
                     </div>
                     <!--end::Avatar-->
                     <!--begin::User details-->
                     <div class="d-flex flex-column">
-                        <a href="" class="text-gray-800 text-hover-primary mb-1">{{$user->nama}}</a>
-                        <span>{{$user->email}}</span>
+                        <a href="" class="text-gray-800 text-hover-primary mb-1">{{$users->nama}}</a>
+                        <span>{{$users->email}}</span>
                     </div>
                     <!--begin::User details-->
                 </td>
                 <!--end::User=-->
                 <!--begin::Role=-->
-                <td>{{$user->role}}</td>
+                <td>{{$users->role}}</td>
                 <!--end::Role=-->
                 <!--begin::Last login=-->
                 <td>
-                    <div class="badge badge-light fw-bolder">{{$user->jenjang}}</div>
+                    <div class="badge badge-light fw-bolder">{{$users->jenjang}}</div>
                 </td>
                 <!--end::Last login=-->
                 <!--begin::Joined-->
-                <td>{{$user->created_at}}</td>
+                <td>{{$users->created_at}}</td>
                 <!--begin::Joined-->
                 <!--begin::Action=-->
                 <td class="text-end">
-                    <a class="btn btn-light btn-active-light-primary btn-sm" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" data-kt-menu-flip="top-end">Actions
-                    <!--begin::Svg Icon | path: icons/duotone/Navigation/Angle-down.svg-->
-                    <span class="svg-icon svg-icon-5 m-0">
-                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                <polygon points="0 0 24 0 24 24 0 24" />
-                                <path d="M6.70710678,15.7071068 C6.31658249,16.0976311 5.68341751,16.0976311 5.29289322,15.7071068 C4.90236893,15.3165825 4.90236893,14.6834175 5.29289322,14.2928932 L11.2928932,8.29289322 C11.6714722,7.91431428 12.2810586,7.90106866 12.6757246,8.26284586 L18.6757246,13.7628459 C19.0828436,14.1360383 19.1103465,14.7686056 18.7371541,15.1757246 C18.3639617,15.5828436 17.7313944,15.6103465 17.3242754,15.2371541 L12.0300757,10.3841378 L6.70710678,15.7071068 Z" fill="#000000" fill-rule="nonzero" transform="translate(12.000003, 11.999999) rotate(-180.000000) translate(-12.000003, -11.999999)" />
-                            </g>
-                        </svg>
-                    </span>
-                    <!--end::Svg Icon--></a>
-                    <!--begin::Menu-->
-                    <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-bold fs-7 w-125px py-4" data-kt-menu="true">
-                        <!--begin::Menu item-->
-                        <div class="menu-item px-3">
-                            <a href="apps/user-management/users/view.html" class="menu-link px-3">Edit</a>
+                        <div class="btn-group" role="group">
+                            <button id="aksi" type="button" class="btn btn-sm btn-light btn-active-light-primary" data-bs-toggle="dropdown" aria-expanded="false">
+                                Actions
+                                <span class="svg-icon svg-icon-5 m-0">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                        <path d="M11.4343 12.7344L7.25 8.55005C6.83579 8.13583 6.16421 8.13584 5.75 8.55005C5.33579 8.96426 5.33579 9.63583 5.75 10.05L11.2929 15.5929C11.6834 15.9835 12.3166 15.9835 12.7071 15.5929L18.25 10.05C18.6642 9.63584 18.6642 8.96426 18.25 8.55005C17.8358 8.13584 17.1642 8.13584 16.75 8.55005L12.5657 12.7344C12.2533 13.0468 11.7467 13.0468 11.4343 12.7344Z" fill="black" />
+                                    </svg>
+                                </span>
+                            </button>
+                            <div class="dropdown-menu menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-bold fs-7 w-125px py-4" aria-labelledby="aksi">
+                                <div class="menu-item px-3">
+                                    <a href="javascript:;" onclick="handle_open_modal('{{route('users.edit',$users->id)}}','#ModalCreateUsers','#contentUsersModal');" class="menu-link px-3">Edit</a>
+                                </div>
+                                <div class="menu-item px-3">
+                                    <a href="javascript:;" onclick="handle_confirm('Apakah Anda Yakin?','Yakin','Tidak','DELETE','{{route('users.destroy',$users->id)}}');" class="menu-link px-3">Delete</a>
+                                </div>
+                            </div>
                         </div>
-                        <!--end::Menu item-->
-                        <!--begin::Menu item-->
-                        <div class="menu-item px-3">
-                            <a href="#" class="menu-link px-3" data-kt-users-table-filter="delete_row">Delete</a>
-                        </div>
-                        <!--end::Menu item-->
-                    </div>
-                    <!--end::Menu-->
                 </td>
                     <!--end::Menu-->
                 </td>
@@ -98,4 +91,4 @@
         <!--end::Table body-->
     </table>
     <!--end::Table-->
-{{-- {{$user->links()}} --}}
+{{$user->links()}}

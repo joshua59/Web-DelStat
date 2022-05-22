@@ -65,7 +65,7 @@ function handle_open_modal_add(modal){
 }
 function handle_open_modal(url,modal,content){
     $.ajax({
-        type: "POST",
+        type: "GET",
         url: url,
         success: function (html) {
             $(modal).modal('show');

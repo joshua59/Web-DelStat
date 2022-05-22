@@ -77,7 +77,7 @@ function save_form_modal(tombol,form,url,modal)
     });
     
 }
-function upload_form_modal(tombol,form,url,modal)
+function upload_form_modal(tombol,form,url,modal,method)
 {
     $(document).one('submit', form, function (e) {
         let data = new FormData(this);
@@ -85,7 +85,7 @@ function upload_form_modal(tombol,form,url,modal)
         $(tombol).prop("disabled", true);
         $(tombol).html("Harap tunggu");
         $.ajax({
-            type: "POST",
+            type: method,
             url: url,
             data: data,
             enctype: 'multipart/form-data',
@@ -117,13 +117,10 @@ function upload_form_modal(tombol,form,url,modal)
     });
 
 }
-function handle_open_modal(id,url,modal,content){
+function handle_open_modal(url,modal,content){
     $.ajax({
-        type: "POST",
+        type: "GET",
         url: url,
-        data: {
-            id: id
-        },
         success: function (html) {
             $(content).html(html);
             $(modal).modal('show');

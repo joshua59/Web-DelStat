@@ -1,4 +1,4 @@
-<x-office-layout title="Users">
+<x-office-layout title="Analisis">
     <div id="content_list">
         <div class="post d-flex flex-column-fluid" id="kt_post">
             <div id="kt_content_container" class="container-xxl">
@@ -90,7 +90,7 @@
 
                                     <!--end::Export-->
                                     <!--begin::Add user-->
-                                    <button type="button" class="btn btn-primary" onclick="handle_open_modal('{{route('users.create')}}','#ModalCreateUsers','#contentUsersModal');">
+                                    {{-- <button type="button" class="btn btn-primary" onclick="handle_open_modal('{{route('literatur.create')}}','#ModalCreateLiteratur','#contentLiteraturModal');">
                                     <!--begin::Svg Icon | path: icons/duotone/Navigation/Plus.svg-->
                                     <span class="svg-icon svg-icon-2">
                                         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -98,7 +98,7 @@
                                             <rect fill="#000000" opacity="0.5" transform="translate(12.000000, 12.000000) rotate(-270.000000) translate(-12.000000, -12.000000)" x="4" y="11" width="16" height="2" rx="1" />
                                         </svg>
                                     </span>
-                                    <!--end::Svg Icon-->Add User</button>
+                                    <!--end::Svg Icon-->Add Literatur</button> --}}
                                     <!--end::Add user-->
                                 </div>
                                 <!--end::Toolbar-->

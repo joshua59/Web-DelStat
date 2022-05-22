@@ -59,4 +59,8 @@ class User extends Authenticatable
     {
         return Hash::check($password, $encryptedPassword);
     }
+
+    public function getImageAttribute(){
+        return asset('storage/' .  $this->foto_profil);
+    }
 }

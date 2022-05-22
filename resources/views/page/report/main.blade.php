@@ -1,4 +1,4 @@
-<x-office-layout title="Users">
+<x-office-layout title="HasilKuis">
     <div id="content_list">
         <div class="post d-flex flex-column-fluid" id="kt_post">
             <div id="kt_content_container" class="container-xxl">
@@ -74,7 +74,7 @@
                                     <!--end::Filter-->
                                     <!--begin::Export-->
 
-                                    {{-- <button type="button" class="btn btn-light-primary me-3" data-bs-toggle="modal" data-bs-target="#kt_modal_export_users">
+                                    <button type="button" class="btn btn-light-primary me-3" data-bs-toggle="modal" data-bs-target="#kt_modal_export_users">
                                     <!--begin::Svg Icon | path: icons/duotone/Files/Export.svg-->
                                     <span class="svg-icon svg-icon-2">
                                         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -86,19 +86,11 @@
                                             </g>
                                         </svg>
                                     </span>
-                                    <!--end::Svg Icon-->Export</button> --}}
+                                    <!--end::Svg Icon-->Export</button>
 
                                     <!--end::Export-->
                                     <!--begin::Add user-->
-                                    <button type="button" class="btn btn-primary" onclick="handle_open_modal('{{route('users.create')}}','#ModalCreateUsers','#contentUsersModal');">
-                                    <!--begin::Svg Icon | path: icons/duotone/Navigation/Plus.svg-->
-                                    <span class="svg-icon svg-icon-2">
-                                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-                                            <rect fill="#000000" x="4" y="11" width="16" height="2" rx="1" />
-                                            <rect fill="#000000" opacity="0.5" transform="translate(12.000000, 12.000000) rotate(-270.000000) translate(-12.000000, -12.000000)" x="4" y="11" width="16" height="2" rx="1" />
-                                        </svg>
-                                    </span>
-                                    <!--end::Svg Icon-->Add User</button>
+                                    
                                     <!--end::Add user-->
                                 </div>
                                 <!--end::Toolbar-->
@@ -118,7 +110,7 @@
                                             <!--begin::Modal header-->
                                             <div class="modal-header">
                                                 <!--begin::Modal title-->
-                                                <h2 class="fw-bolder">Export Users</h2>
+                                                <h2 class="fw-bolder">Export Hasil Kuis</h2>
                                                 <!--end::Modal title-->
                                                 <!--begin::Close-->
                                                 <div class="btn btn-icon btn-sm btn-active-icon-primary" data-kt-users-modal-action="close">
