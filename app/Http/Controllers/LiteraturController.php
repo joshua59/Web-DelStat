@@ -69,6 +69,7 @@ class LiteraturController extends Controller
             $literatur->id_user = Auth::user()->id;
             $this->extracted($request, $literatur);
             $literatur->save();
+            NotifikasiApiController::newLiteratur($literatur->id);
             return response()->json([
                 'alert' => 'success',
                 'message' => 'File '. $request->judul . ' telah ditambahkan',

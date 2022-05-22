@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Notifikasi;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class NotifikasiApiController extends Controller
 {
@@ -89,6 +90,16 @@ class NotifikasiApiController extends Controller
             'code' => 200,
             'message' => 'Notification data retrieved successfully',
             'notifikasi' => $notifikasi,
+        ]);
+    }
+
+    public function count()
+    {
+        $countNotifications = Notifikasi::where('id_user', Auth::user()->id)->where('sudah_dibaca', false)->count();
+        return response()->json([
+            'code' => 200,
+            'message' => 'Count of notifications retrieved successfully',
+            'count_notifikasi' => $countNotifications,
         ]);
     }
 }

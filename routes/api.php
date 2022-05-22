@@ -71,6 +71,7 @@ Route::middleware(['auth:api'])->group(function () {
 
     /* NotifikasiApiController */
     Route::get("/notifikasi", [NotifikasiApiController::class, 'index']);
+    Route::get("/notifikasi/count", [NotifikasiApiController::class, 'count']);
     /* End of NotifikasiApiController */
 
     /* ChatRoomApiController */
