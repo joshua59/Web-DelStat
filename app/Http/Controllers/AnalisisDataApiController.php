@@ -74,7 +74,7 @@ class AnalisisDataApiController extends Controller
         /* End of saving data */
 
         /* Creating notification for Dosen */
-        NotifikasiApiController::newAnalisisData($analisisData->id);
+        NotifikasiApiController::newAnalisisData($analisisData);
         /* End of creating notification for Dosen */
 
         return response()->json([

@@ -101,7 +101,7 @@ class LiteraturApiController extends Controller
         /* End of saving data */
 
         /* Creating notification for Siswa to inform new Literatur added */
-        NotifikasiApiController::newLiteratur($literatur->id);
+        NotifikasiApiController::newLiteratur($literatur);
         /* End of creating notification */
 
         return response()->json([

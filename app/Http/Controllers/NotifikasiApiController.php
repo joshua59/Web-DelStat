@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AnalisisData;
+use App\Models\Literatur;
 use App\Models\Notifikasi;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -13,18 +15,19 @@ class NotifikasiApiController extends Controller
      * This static method will be invoked when a new analisis data is added
      * The invocation of this method will be done by the AnalisisDataApiController
      *
-     * @param $id_literatur
+     * @param AnalisisData $analisisData
      * @return void
      */
-    public static function newAnalisisData($id_analisis_data)
+    public static function newAnalisisData(AnalisisData $analisisData)
     {
         $user = User::all()->where('role', 'Dosen');
 
         foreach ($user as $u) {
             Notifikasi::create([
                 'id_user' => $u->id,
-                'id_analisis_data' => $id_analisis_data,
-                'jenis_notifikasi' => 'Request Analisis Data Baru',
+                'id_analisis_data' => $analisisData->id,
+                'jenis_notifikasi' => Notifikasi::$NOTIFIKASI_ANALISIS_DATA_BARU,
+                'deskripsi' => 'Request ' . $analisisData->judul . ' telah diterima.',
             ]);
         }
     }
@@ -33,18 +36,19 @@ class NotifikasiApiController extends Controller
      * This static method will be invoked when a new literatur is added
      * The invocation of this method will be done by the LiteraturApiController
      *
-     * @param $id_literatur
+     * @param Literatur $literatur
      * @return void
      */
-    public static function newLiteratur($id_literatur)
+    public static function newLiteratur(Literatur $literatur)
     {
         $user = User::all()->where('role', 'Siswa');
 
         foreach ($user as $u) {
             Notifikasi::create([
                 'id_user' => $u->id,
-                'id_literatur' => $id_literatur,
-                'jenis_notifikasi' => 'Literatur Baru',
+                'id_literatur' => $literatur->id,
+                'jenis_notifikasi' => Notifikasi::$NOTIFIKASI_LITERATUR_BARU,
+                'deskripsi' => $literatur->judul . ' telah ditambahkan',
             ]);
         }
     }
@@ -59,8 +63,31 @@ class NotifikasiApiController extends Controller
      */
     public static function index()
     {
-        $notifikasiData = Notifikasi::all()->where('id_user', auth()->user()->id);
+        $notifikasiData = Notifikasi::orderBy('created_at', 'desc')->where('id_user', auth()->user()->id)->get();
         $notifikasi = [];
+
+        foreach ($notifikasiData as $n){
+            if($n->sudah_dibaca == 0) {
+                $n->sudah_dibaca = false;
+            }
+            else {
+                $n->sudah_dibaca = true;
+            }
+            array_push($notifikasi, $n);
+        }
+
+        self::updateNotifikasi();
+
+        return response()->json([
+            'code' => 200,
+            'message' => 'Notification data retrieved successfully',
+            'notifikasi' => $notifikasi,
+        ]);
+    }
+
+    private static function updateNotifikasi()
+    {
+        $notifikasiData = Notifikasi::all()->where('id_user', auth()->user()->id);
 
         foreach ($notifikasiData as $n) {
             // This will check if the notification is unread and if it is, it will mark it as read.
@@ -82,15 +109,8 @@ class NotifikasiApiController extends Controller
             // Otherwise, the notification will be updated.
             else {
                 $n->save();
-                array_push($notifikasi, $n);
             }
         }
-
-        return response()->json([
-            'code' => 200,
-            'message' => 'Notification data retrieved successfully',
-            'notifikasi' => $notifikasi,
-        ]);
     }
 
     public function count()

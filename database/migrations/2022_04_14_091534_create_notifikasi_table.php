@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('notifikasi', function (Blueprint $table) {
             $table->id();
             $table->string("jenis_notifikasi");
+            $table->text("deskripsi");
             $table->unsignedBigInteger('id_user');
             $table->foreign('id_user')->references('id')->on('users');
             $table->unsignedBigInteger("id_literatur")->nullable();
