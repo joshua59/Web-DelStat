@@ -36,11 +36,19 @@ class ChatApiController extends Controller
         if(Auth::user()->id == $id_user_1){
             foreach ($chat as $c) {
                 if($c->id_user == $id_user_2 && $c->sudah_dibaca == false){
-                    $c->sudah_dibaca = 1; // true
+                    $c->sudah_dibaca = true;
                     $c->read_at = now();
                 }
                 $c->updated_at = now(); // update the last time the chat was accessed
                 $c->save();
+
+                // This will convert the form of true or false from the database that is saved as 1 or 0
+                if($c->sudah_dibaca == 1){
+                    $c->sudah_dibaca = true;
+                }
+                else {
+                    $c->sudah_dibaca = false;
+                }
             }
         }
 
@@ -48,11 +56,19 @@ class ChatApiController extends Controller
         if(Auth::user()->id == $id_user_2){
             foreach ($chat as $c) {
                 if($c->id_user == $id_user_1 && $c->sudah_dibaca == false){
-                    $c->sudah_dibaca = 1; // true
+                    $c->sudah_dibaca = true;
                     $c->read_at = now();
                 }
                 $c->updated_at = now(); // update the last time the chat was accessed
                 $c->save();
+
+                // This will convert the form of true or false from the database that is saved as 1 or 0
+                if($c->sudah_dibaca == 1){
+                    $c->sudah_dibaca = true;
+                }
+                else {
+                    $c->sudah_dibaca = false;
+                }
             }
         }
 

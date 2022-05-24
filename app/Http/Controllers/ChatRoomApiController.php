@@ -27,6 +27,24 @@ class ChatRoomApiController extends Controller
         if (Auth::user()->role == 'Dosen') {
             $chatRoom = ChatRoom::orderBy('updated_at', 'desc')->where('id_user_2', Auth::user()->id)->get();
             foreach ($chatRoom as $cr) {
+                // This will convert the form of true or false from the database that is saved is 1 or 0
+                if($cr->is_automatic_deleted == 1){
+                    $cr->is_automatic_deleted = true;
+                }
+                else{
+                    $cr->is_automatic_deleted = false;
+                }
+
+                // This will check the days difference between the last edited date of the chat room
+                // (edited is discussing when user chose whether the chat room will be deleted automatically or not)
+                // and the date when the chat room was last updated
+                // (updated is when the chat room was last accessed or when the last message was sent)
+                // So, if user Siswa lets the chat room be deleted automatically, then the chat room will be deleted after 28 days
+                $daysDiff = $cr->getDiffInDaysAttribute();
+                if($daysDiff >= 28 && $cr->is_automatic_deleted == true){
+                    $cr->delete();
+                }
+
                 $cr->user = User::find($cr->id_user_1, ['nama', 'foto_profil']); // This will take the data of user that Dosen chats with.
             }
         }
@@ -35,6 +53,24 @@ class ChatRoomApiController extends Controller
         if (Auth::user()->role == 'Siswa') {
             $chatRoom = ChatRoom::orderBy('updated_at', 'desc')->where('id_user_1', Auth::user()->id)->get();
             foreach ($chatRoom as $cr) {
+                // This will convert the form of true or false from the database that is saved is 1 or 0
+                if($cr->is_automatic_deleted == 1){
+                    $cr->is_automatic_deleted = true;
+                }
+                else{
+                    $cr->is_automatic_deleted = false;
+                }
+
+                // This will check the days difference between the last edited date of the chat room
+                // (edited is discussing when user chose whether the chat room will be deleted automatically or not)
+                // and the date when the chat room was last updated
+                // (updated is when the chat room was last accessed or when the last message was sent)
+                // So, if user Siswa lets the chat room be deleted automatically, then the chat room will be deleted after 28 days
+                $daysDiff = $cr->getDiffInDaysAttribute();
+                if($daysDiff >= 28 && $cr->is_automatic_deleted == true){
+                    $cr->delete();
+                }
+
                 $cr->user = User::find($cr->id_user_2, ['nama', 'foto_profil']); // This will take the data of user that Siswa chats with.
             }
         }
@@ -137,6 +173,15 @@ class ChatRoomApiController extends Controller
                     'chatRoom' => $chatRoom,
                 ]);
             }
+
+            // This will convert the form of true or false from the database that is saved is 1 or 0
+            if($chatRoom->is_automatic_deleted == 1){
+                $chatRoom->is_automatic_deleted = true;
+            }
+            else{
+                $chatRoom->is_automatic_deleted = false;
+            }
+
             $chatRoom->user = User::find($chatRoom->id_user_1, ['nama', 'foto_profil']); // This will take the data of user that Dosen chats with.
             // Think it this way, when the authenticated user is Dosen, the user Data that must be gotten is the user's with role Siswa that this Dosen chats with.
         }
@@ -149,6 +194,15 @@ class ChatRoomApiController extends Controller
                     'chatRoom' => $chatRoom,
                 ]);
             }
+
+            // This will convert the form of true or false from the database that is saved is 1 or 0
+            if($chatRoom->is_automatic_deleted == 1){
+                $chatRoom->is_automatic_deleted = true;
+            }
+            else{
+                $chatRoom->is_automatic_deleted = false;
+            }
+
             $chatRoom->user = User::find($chatRoom->id_user_2, ['nama', 'foto_profil']); // This will take the data of user that Siswa chats with.
             // Think it this way, when the authenticated user is Siswa, the user Data that must be gotten is the user's with role Dosen that this Siswa chats with.
         }
@@ -232,6 +286,67 @@ class ChatRoomApiController extends Controller
             'message' => 'Chat created successfully',
             'chatRoom' => $chatRoom,
             'chat' => $chat,
+        ]);
+    }
+
+    /**
+     * This method is to update whether the chat room is automatically deleted or not.
+     * It will accept the request with name 'is_automatic_deleted' and the value of the request is either 1 or 0.
+     * 1 represents true, that is, the chat room will be automatically deleted.
+     * 0 represents false, that is, the chat room will not be automatically deleted.
+     *
+     * @param Request $request
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function updateChatRoom(Request $request, int $id)
+    {
+        // Only user with role Siswa can perform this action
+        if(Auth::user()->role != 'Siswa') {
+            return response()->json([
+                'code' => 403,
+                'message' => 'Forbidden',
+                'chatRoom' => null,
+            ]);
+        }
+
+        $validation = Validator::make($request->all(), [
+            'is_automatic_deleted' => 'required',
+        ]);
+
+        if ($validation->fails()) {
+            return response()->json([
+                'code' => 400,
+                'message' => 'Validation failed',
+                'errors' => $validation->errors(),
+                'chatRoom' => null,
+            ]);
+        }
+
+        $chatRoom = ChatRoom::find($id);
+        if(!$chatRoom) {
+            return response()->json([
+                'code' => 404,
+                'message' => 'Chat room not found',
+                'chatRoom' => null,
+            ]);
+        }
+
+        if($request->is_automatic_deleted == 1) {
+            $chatRoom->is_automatic_deleted = true;
+        } else {
+            $chatRoom->is_automatic_deleted = false;
+        }
+
+        // Later, we will check the differences between the last_edited_at and the updated_at
+        // If the difference is more than 28 days, then the chat room will be deleted
+        $chatRoom->last_edited_at = now();
+        $chatRoom->save();
+
+        return response()->json([
+            'code' => 200,
+            'message' => 'Chat room updated successfully',
+            'chatRoom' => $chatRoom,
         ]);
     }
 }

@@ -79,6 +79,7 @@ Route::middleware(['auth:api'])->group(function () {
     Route::post("/chatroom/store", [ChatRoomApiController::class, 'storeNewChatRoom']);
     Route::get("/chatroom/{id}", [ChatRoomApiController::class, 'show']);
     Route::post("/chatroom/{id}/store", [ChatRoomApiController::class, 'storeNewChat']);
+    Route::put("/chatroom/{id}/update", [ChatRoomApiController::class, 'updateChatRoom']);
     /* End of ChatRoomApiController */
 });
 

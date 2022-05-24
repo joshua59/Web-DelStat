@@ -22,6 +22,9 @@ return new class extends Migration
             $table->unsignedBigInteger('id_user_2');
             $table->foreign('id_user_2')->references('id')->on('users');
 
+            $table->boolean('is_automatic_deleted')->default(true);
+
+            $table->dateTime('last_edited_at')->default(now());
             $table->timestamps();
         });
     }
