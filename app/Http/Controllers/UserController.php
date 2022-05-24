@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\File;
 use Illuminate\Support\Facades\Auth;
@@ -42,7 +43,7 @@ class UserController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
@@ -62,7 +63,6 @@ class UserController extends Controller
             ]);
         }
         try {
-            $foto_profil = request()->file('foto_profil')->store("users");
             $user = new User;
             $user->nama = $request->nama;
             $user->email = $request->email;
@@ -70,7 +70,18 @@ class UserController extends Controller
             $user->password = bcrypt('password');
             $user->jenjang = $request->jenjang;
             $user->role = $request->role;
-            $user->foto_profil = $foto_profil;
+
+            $user->foto_profil = User::$FILE_DESTINATION . '/' . 'default.jpg';
+
+            if($request->hasFile('foto_profil')) {
+                $file = $request->file('foto_profil');
+                $extension = $file->getClientOriginalExtension();
+                $filename = preg_replace('/\s+/', '', $request->nama) . '.' . $extension;
+                $file->move(User::$FILE_DESTINATION, $filename);
+
+                $user->foto_profil = User::$FILE_DESTINATION . '/' . $filename;
+            }
+
             $user->save();
             return response()->json([
                 'alert' => 'success',
@@ -99,7 +110,7 @@ class UserController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function edit(User $user)
     {
@@ -111,22 +122,34 @@ class UserController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, User $user)
     {
         try {
-            if(request()->file('foto_profil')){
-                Storage::delete($user->foto_profil);
-                $foto_profil = request()->file('foto_profil')->store("user");
-                $user->foto_profil = $foto_profil;
-            }
             $user->nama = $request->nama;
             $user->email = $request->email;
             $user->no_hp = $request->no_hp;
             $user->password = bcrypt($request->password);
             $user->jenjang = $request->jenjang;
             $user->role = $request->role;
+
+            if($request->hasFile('foto_profil')) {
+                $file = $request->file('foto_profil');
+                $extension = $file->getClientOriginalExtension();
+                $filename = preg_replace('/\s+/', '', $request->nama) . '.' . $extension;
+
+                if($user->foto_profil == User::$FILE_DESTINATION . '/' . 'default.jpg') {
+                    $user->foto_profil = User::$FILE_DESTINATION . '/' . $filename;
+                }
+                else {
+                    unlink($user->foto_profil);
+                    $user->foto_profil = User::$FILE_DESTINATION . '/' . $filename;
+                }
+
+                $file->move(User::$FILE_DESTINATION, $filename);
+                $user->foto_profil = User::$FILE_DESTINATION . '/' . $filename;
+            }
 
             $user->update();
             return response()->json([
@@ -145,7 +168,7 @@ class UserController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(User $user)
     {
