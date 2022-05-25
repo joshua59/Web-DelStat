@@ -41,6 +41,7 @@ Route::middleware(['auth:api'])->group(function () {
     Route::put('/user', [UserApiController::class, 'editProfile']);
     Route::post('/user/update', [UserApiController::class, 'editProfile']);
     Route::post('/user/password', [UserApiController::class, 'editPassword']);
+    Route::get('/user/findbyrole', [UserApiController::class, 'findUsersByRole']);
     Route::post('/logout', [UserApiController::class, 'logout']);
     /* End of Authenticated UserApiController */
 
@@ -78,8 +79,8 @@ Route::middleware(['auth:api'])->group(function () {
     Route::get("/chatroom", [ChatRoomApiController::class, 'index']);
     Route::post("/chatroom/store", [ChatRoomApiController::class, 'storeNewChatRoom']);
     Route::get("/chatroom/{id}", [ChatRoomApiController::class, 'show']);
-    Route::post("/chatroom/{id}/store", [ChatRoomApiController::class, 'storeNewChat']);
-    Route::put("/chatroom/{id}/update", [ChatRoomApiController::class, 'updateChatRoom']);
+    Route::post("/chatroom/store/{id}", [ChatRoomApiController::class, 'storeNewChat']);
+    Route::put("/chatroom/update/{id}", [ChatRoomApiController::class, 'updateChatRoom']);
     /* End of ChatRoomApiController */
 });
 

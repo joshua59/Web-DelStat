@@ -28,12 +28,13 @@ class ChatRoomApiController extends Controller
             $chatRoom = ChatRoom::orderBy('updated_at', 'desc')->where('id_user_2', Auth::user()->id)->get();
             foreach ($chatRoom as $cr) {
                 // This will convert the form of true or false from the database that is saved is 1 or 0
-                if($cr->is_automatic_deleted == 1){
+                /*if($cr->is_automatic_deleted == 1){
                     $cr->is_automatic_deleted = true;
                 }
                 else{
                     $cr->is_automatic_deleted = false;
-                }
+                }*/
+                $cr->convertToBoolean();
 
                 // This will check the days difference between the last edited date of the chat room
                 // (edited is discussing when user chose whether the chat room will be deleted automatically or not)
@@ -79,7 +80,7 @@ class ChatRoomApiController extends Controller
         return response()->json([
             'code' => 200,
             'message' => 'All chat rooms retrieved successfully',
-            'chatRoom' => $chatRoom,
+            'listChatRoom' => $chatRoom,
         ]);
     }
 
@@ -111,6 +112,7 @@ class ChatRoomApiController extends Controller
         if (Auth::user()->role == 'Dosen') {
             $chatRoom = ChatRoom::where('id_user_1', $request->id_user)->where('id_user_2', Auth::user()->id)->first();
             if ($chatRoom) {
+                $chatRoom->convertToBoolean();
                 return response()->json([
                     'code' => 400,
                     'message' => 'Chat room already exists',
@@ -127,6 +129,7 @@ class ChatRoomApiController extends Controller
         if (Auth::user()->role == 'Siswa') {
             $chatRoom = ChatRoom::where('id_user_1', Auth::user()->id)->where('id_user_2', $request->id_user)->first();
             if ($chatRoom) {
+                $chatRoom->convertToBoolean();
                 return response()->json([
                     'code' => 400,
                     'message' => 'Chat room already exists',
@@ -140,6 +143,7 @@ class ChatRoomApiController extends Controller
             $chatRoom->save();
         }
 
+        $chatRoom->convertToBoolean();
         return response()->json([
             'code' => 200,
             'message' => 'Chat room created successfully',
@@ -174,14 +178,6 @@ class ChatRoomApiController extends Controller
                 ]);
             }
 
-            // This will convert the form of true or false from the database that is saved is 1 or 0
-            if($chatRoom->is_automatic_deleted == 1){
-                $chatRoom->is_automatic_deleted = true;
-            }
-            else{
-                $chatRoom->is_automatic_deleted = false;
-            }
-
             $chatRoom->user = User::find($chatRoom->id_user_1, ['nama', 'foto_profil']); // This will take the data of user that Dosen chats with.
             // Think it this way, when the authenticated user is Dosen, the user Data that must be gotten is the user's with role Siswa that this Dosen chats with.
         }
@@ -195,17 +191,12 @@ class ChatRoomApiController extends Controller
                 ]);
             }
 
-            // This will convert the form of true or false from the database that is saved is 1 or 0
-            if($chatRoom->is_automatic_deleted == 1){
-                $chatRoom->is_automatic_deleted = true;
-            }
-            else{
-                $chatRoom->is_automatic_deleted = false;
-            }
-
             $chatRoom->user = User::find($chatRoom->id_user_2, ['nama', 'foto_profil']); // This will take the data of user that Siswa chats with.
             // Think it this way, when the authenticated user is Siswa, the user Data that must be gotten is the user's with role Dosen that this Siswa chats with.
         }
+
+        // This will convert the form of true or false from the database that is saved is 1 or 0
+        $chatRoom->convertToBoolean();
 
         return response()->json([
             'code' => 200,
@@ -281,6 +272,8 @@ class ChatRoomApiController extends Controller
         $chatRoom->save();
         /* End of updating the chat room's updated_at */
 
+        $chatRoom->convertToBoolean();
+
         return response()->json([
             'code' => 200,
             'message' => 'Chat created successfully',
@@ -342,6 +335,8 @@ class ChatRoomApiController extends Controller
         // If the difference is more than 28 days, then the chat room will be deleted
         $chatRoom->last_edited_at = now();
         $chatRoom->save();
+
+        $chatRoom->convertToBoolean();
 
         return response()->json([
             'code' => 200,

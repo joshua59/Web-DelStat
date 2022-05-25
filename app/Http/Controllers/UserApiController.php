@@ -59,7 +59,7 @@ class UserApiController extends Controller
         $user->no_hp = $request->no_hp;
         $user->password = bcrypt($request->password);
         /*$user->jenjang = $request->jenjang;*/
-        $user->role = 'Siswa';
+        $user->role = User::$ROLE_SISWA;
         $user->foto_profil = User::$FILE_DESTINATION . '/' . 'default.jpg';
 
         if($request->hasFile('foto_profil')) {
@@ -269,6 +269,40 @@ class UserApiController extends Controller
             'code' => 200,
             'message' => 'Logged out successfully.',
             'user' => null,
+        ]);
+    }
+
+    /**
+     * This is used to get all users depending on the role.
+     * If the user that invokes this method is 'Siswa' then it will get all the users that are 'Dosen'
+     * If the user that invokes this method is 'Dosen' then it will get all the users that are 'Siswa'
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function findUsersByRole()
+    {
+        if(Auth::user()->role == User::$ROLE_SISWA) {
+            $listUser = User::where('role', User::$ROLE_DOSEN)->get();
+            return response()->json([
+                'code' => 200,
+                'message' => 'List of users retrieved successfully.',
+                'list_user' => $listUser,
+            ]);
+        }
+
+        if(Auth::user()->role == User::$ROLE_DOSEN) {
+            $listUser = User::where('role', User::$ROLE_SISWA)->get();
+            return response()->json([
+                'code' => 200,
+                'message' => 'List of users retrieved successfully.',
+                'list_user' => $listUser,
+            ]);
+        }
+
+        return response()->json([
+            'code' => 401,
+            'message' => 'You are not authorized to access this resource.',
+            'list_user' => null,
         ]);
     }
 }

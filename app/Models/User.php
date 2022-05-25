@@ -56,6 +56,14 @@ class User extends Authenticatable
     public static string $FILE_DESTINATION = 'uploaded/profile-pictures';
 
     /**
+     * The class attributes that define roles that can be assigned to this model.
+     * @var string
+     */
+    public static string $ROLE_ADMIN = 'Admin';
+    public static string $ROLE_DOSEN = 'Dosen';
+    public static string $ROLE_SISWA = 'Siswa';
+
+    /**
      * Check password given by user with the encrypted password
      * from user that is found using the already found email.
      *

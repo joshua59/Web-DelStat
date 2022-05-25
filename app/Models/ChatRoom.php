@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use \DateTimeInterface;
 
 class ChatRoom extends Model
 {
@@ -35,5 +36,30 @@ class ChatRoom extends Model
     public function getDiffInDaysAttribute()
     {
         return $this->updated_at->diffInDays($this->last_edited_at);
+    }
+
+    public function convertToBoolean()
+    {
+        if($this->is_automatic_deleted == 1)
+        {
+            $this->is_automatic_deleted = true;
+        }
+        else
+        {
+            $this->is_automatic_deleted = false;
+        }
+    }
+
+    /**
+     * Prepare a date for array / JSON serialization.
+     *
+     * @param  \DateTimeInterface  $date
+     * @return string
+     */
+    protected function serializeDate(DateTimeInterface $date)
+    {
+        /*return $date->format('d M Y, H:i:s');*/
+        $long = strtotime($date->format('Y-m-d H:i:s'));
+        return (string)$long;
     }
 }

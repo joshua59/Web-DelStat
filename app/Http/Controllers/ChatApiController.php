@@ -21,7 +21,7 @@ class ChatApiController extends Controller
     public static function showAllChatsInChatRoom(int $id_chat_room, int $id_user_1, int $id_user_2)
     {
         // $chat = Chat::where('id_chat_room', $id_chat_room)->get()->orderBy('created_at', 'desc');
-        $chat = Chat::orderBy('created_at', 'desc')->orderBy('id', 'desc')->where('id_chat_room', $id_chat_room)->get();
+        $chat = Chat::orderBy('created_at', 'asc')->orderBy('id', 'asc')->where('id_chat_room', $id_chat_room)->get();
 
         if(!$chat){
             /*return response()->json([
