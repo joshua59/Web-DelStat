@@ -189,7 +189,7 @@ class UserApiController extends Controller
         if($request->hasFile('foto_profil')) {
             $file = $request->file('foto_profil');
             $extension = $file->getClientOriginalExtension();
-            $filename = preg_replace('/\s+/', '', $request->nama) . '-' . $user->id .  '.' . $extension;
+            $filename = preg_replace('/\s+/', '', $request->nama) . '-' . $user->id . '-' . date("d-m-Y_H-i-s") . '.' . $extension;
 
             if($user->foto_profil == User::$FILE_DESTINATION . '/' . 'default.jpg') {
                 $user->foto_profil = User::$FILE_DESTINATION . '/' . $filename;
