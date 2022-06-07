@@ -236,8 +236,13 @@ class UserApiController extends Controller
         $user = User::find(Auth::user()->id);
         if(!User::checkPassword($request->password, $user->password)){
             return response()->json([
-                'code' => 401,
-                'message' => 'Password is incorrect.',
+                'code' => 400,
+                'message' => "Failed to update password.",
+                'errors' => [
+                    'password' => [
+                        'Password is incorrect.'
+                    ],
+                ],
                 'user' => null,
             ]);
         }

@@ -24,7 +24,7 @@ class UsersSeeder extends Seeder
             'email' => 'dosen1@gmail.com',
             'no_hp' => '08123456791',
             'password' => bcrypt('12345678'),
-            'jenjang' => 'Siswa',
+            'jenjang' => 'Dosen',
             'foto_profil' => User::$FILE_DESTINATION . '/' . 'default.jpg',
             'role' => 'Dosen',
         ]);
@@ -34,7 +34,7 @@ class UsersSeeder extends Seeder
             'email' => 'dosen2@gmail.com',
             'no_hp' => '08123456792',
             'password' => bcrypt('12345678'),
-            'jenjang' => 'Siswa',
+            'jenjang' => 'Dosen',
             'foto_profil' => User::$FILE_DESTINATION . '/' . 'default.jpg',
             'role' => 'Dosen',
         ]);
@@ -44,7 +44,7 @@ class UsersSeeder extends Seeder
             'email' => 'dosen3@gmail.com',
             'no_hp' => '08123456793',
             'password' => bcrypt('12345678'),
-            'jenjang' => 'Siswa',
+            'jenjang' => 'Dosen',
             'foto_profil' => User::$FILE_DESTINATION . '/' . 'default.jpg',
             'role' => 'Dosen',
         ]);

@@ -133,7 +133,9 @@ class AnalisisDataApiController extends Controller
     public function update(Request $request, int $id)
     {
         $validation = Validator::make($request->all(), [
+            'judul' => 'required',
             'deskripsi' => 'required',
+            'file' => 'file|mimes:pdf,xlsx,xls,doc,docx,zip,rar,txt,csv|nullable',
         ]);
 
         if ($validation->fails()) {
@@ -166,7 +168,18 @@ class AnalisisDataApiController extends Controller
         }
 
         // If the data exists and the user has access to it then update the data
+        $analisisData->judul = $request->judul;
         $analisisData->deskripsi = $request->deskripsi;
+
+        // If user sends a new file, then the old file will be deleted and replaced with the new one
+        if ($request->hasFile('file')) {
+            // Delete the old file
+            unlink($analisisData->file);
+
+            // Save the new file
+            $this->extracted($request, $analisisData);
+        }
+
         $analisisData->save();
 
         return response()->json([
