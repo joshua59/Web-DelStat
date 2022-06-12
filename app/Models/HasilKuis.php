@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use DateTimeInterface;
 
 class HasilKuis extends Model
 {
@@ -25,7 +26,7 @@ class HasilKuis extends Model
      */
     public static function getAllHasilKuis()
     {
-        return HasilKuis::all();
+        return HasilKuis::latest()->get();
     }
 
     /**
@@ -36,7 +37,7 @@ class HasilKuis extends Model
      */
     public static function getAllHasilKuisPrivate(int $id_user)
     {
-        return HasilKuis::where('id_user', $id_user)->get();
+        return HasilKuis::latest()->where('id_user', $id_user)->get();
     }
 
     /**
@@ -47,7 +48,7 @@ class HasilKuis extends Model
      */
     public static function getAllHasilKuisByIdKuis(int $id_kuis)
     {
-        return HasilKuis::where('id_kuis', $id_kuis)->get();
+        return HasilKuis::latest()->where('id_kuis', $id_kuis)->get();
     }
 
     /**
@@ -59,8 +60,22 @@ class HasilKuis extends Model
      */
     public static function getAllHasilKuisByIdKuisPrivate(int $id_kuis, int $id_user)
     {
-        return HasilKuis::where('id_kuis', $id_kuis)
+        return HasilKuis::latest()
+            ->where('id_kuis', $id_kuis)
             ->where('id_user', $id_user)
             ->get();
+    }
+
+    /**
+     * Prepare a date for array / JSON serialization.
+     *
+     * @param  \DateTimeInterface  $date
+     * @return string
+     */
+    protected function serializeDate(DateTimeInterface $date)
+    {
+        /*return $date->format('d M Y, H:i:s');*/
+        $long = strtotime($date->format('Y-m-d H:i:s'));
+        return (string)$long;
     }
 }

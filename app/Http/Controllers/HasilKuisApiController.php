@@ -22,7 +22,7 @@ class HasilKuisApiController extends Controller
             return response()->json([
                 'code' => 200,
                 'message' => 'All Hasil Kuis retrieved successfully.',
-                'hasilKuis' => $hasilKuis,
+                'listHasilKuis' => $hasilKuis,
             ]);
         }
 
@@ -30,7 +30,7 @@ class HasilKuisApiController extends Controller
         return response()->json([
             'code' => 200,
             'message' => 'All Hasil Kuis ' . Auth::user()->nama . ' retrieved successfully.',
-            'hasilKuis' => $hasilKuis,
+            'listHasilKuis' => $hasilKuis,
         ]);
     }
 
@@ -50,7 +50,7 @@ class HasilKuisApiController extends Controller
             return response()->json([
                 'code' => 200,
                 'message' => 'All Hasil Kuis with id ' . $id_kuis . ' retrieved successfully.',
-                'hasilKuis' => $hasilKuis,
+                'listHasilKuis' => $hasilKuis,
             ]);
         }
 
@@ -58,7 +58,7 @@ class HasilKuisApiController extends Controller
         return response()->json([
             'code' => 200,
             'message' => 'All Hasil Kuis with id ' . $id_kuis . ' of user named ' . Auth::user()->nama . ' retrieved successfully.',
-            'hasilKuis' => $hasilKuis,
+            'listHasilKuis' => $hasilKuis,
         ]);
     }
 
@@ -79,7 +79,7 @@ class HasilKuisApiController extends Controller
         ]);
 
         return response()->json([
-            'code' => 201,
+            'code' => 200,
             'message' => 'Hasil kuis stored successfully',
             'hasilKuis' => $hasilKuis,
         ]);
