@@ -57,7 +57,7 @@
             <td>
                 @if($item->status == 'Dipesan')
                     <span class="badge badge-light-warning">{{$item->status}}</span>
-                @elseif($item->status == 'Diterima')
+                @elseif($item->status == 'Diproses')
                     <span class="badge badge-light-primary">{{$item->status}}</span>
                 @elseif($item->status == 'Selesai')
                     <span class="badge badge-light-success">{{$item->status}}</span>
@@ -78,7 +78,7 @@
                             onchange='if(this.value != 0) { this.form.submit(); }'>
                         <option value='0' disabled selected>Status</option>
                         <option value='Dipesan'>Dipesan</option>
-                        <option value='Diterima'>Diterima</option>
+                        <option value='Diproses'>Diproses</option>
                         <option value='Selesai'>Selesai</option>
                         <option value='Ditolak'>Ditolak</option>
                     </select>

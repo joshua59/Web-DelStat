@@ -8,6 +8,7 @@ use Illuminate\Http\File;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
+use PDF;
 
 class HasilKuisController extends Controller
 {
@@ -20,5 +21,12 @@ class HasilKuisController extends Controller
             return view('page.report.list', compact('hasilkuis'));
         }
         return view('page.report.main');
+    }
+
+    public function export_pdf()
+    {
+        $hasilkuis = HasilKuis::all();
+        $pdf = PDF::loadView('page.report.pdf', compact('hasilkuis'));
+        return $pdf->download('hasil_kuis.pdf');
     }
 }

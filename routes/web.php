@@ -38,15 +38,18 @@ Route::group(['middleware' => 'auth:web','verified'], function () {
 
     Route::prefix('users')->name('users.')->group(function(){
         Route::get('',  [UserController::class, 'index'])->name('index');
+        Route::get('profile', [UserController::class, 'profile'])->name('profile');
         Route::get('create',[UserController::class, 'create'])->name('create');
         Route::get('edit/{user}',  [UserController::class, 'edit'])->name('edit');
         Route::post('store',     [UserController::class, 'store'])->name('store');
         Route::post('update/{user}',   [UserController::class, 'update'])->name('update');
         Route::delete('destroy/{user}', [UserController::class, 'destroy'])->name('destroy');
+        Route::post('editPassword', [UserController::class, 'editPassword'])->name('editPassword');
     });
     
     Route::prefix('hasilkuis')->name('hasilkuis.')->group(function(){
         Route::get('',  [HasilKuisController::class, 'index'])->name('index');
+        Route::get('export_pdf',[HasilKuisController::class, 'export_pdf'])->name('pdf');
     });
 
     Route::prefix('literatur')->name('literatur.')->group(function(){

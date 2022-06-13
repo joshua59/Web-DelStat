@@ -74,7 +74,7 @@
                                     <!--end::Filter-->
                                     <!--begin::Export-->
 
-                                    <button type="button" class="btn btn-light-primary me-3" data-bs-toggle="modal" data-bs-target="#kt_modal_export_users">
+                                    <button type="button" class="btn btn-light-primary me-3">
                                     <!--begin::Svg Icon | path: icons/duotone/Files/Export.svg-->
                                     <span class="svg-icon svg-icon-2">
                                         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -86,7 +86,8 @@
                                             </g>
                                         </svg>
                                     </span>
-                                    <!--end::Svg Icon-->Export</button>
+                                    <a target="_blank" href="{{ route('hasilkuis.pdf') }}">Export</a>
+                                    <!--end::Svg Icon--></button>
 
                                     <!--end::Export-->
                                     <!--begin::Add user-->
