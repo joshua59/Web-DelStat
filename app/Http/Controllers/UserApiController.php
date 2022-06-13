@@ -76,7 +76,7 @@ class UserApiController extends Controller
         // After creating the user, return the user in JSON format
         return response()->json([
             'code' => 201,
-            'message' => 'User created successfully.',
+            'message' => 'Register berhasil.',
             'user' => $user,
         ]);
     }
@@ -111,7 +111,7 @@ class UserApiController extends Controller
         if(!$user) {
             return response()->json([
                 'code' => 401,
-                'message' => 'Email does not exist.',
+                'message' => 'Email tersebut tidak terdaftar.',
                 'user' => null,
             ]);
         }
@@ -129,7 +129,7 @@ class UserApiController extends Controller
         if(!User::checkPassword($request->password, $user->password)) {
             return response()->json([
                 'code' => 401,
-                'message' => 'Password is incorrect.',
+                'message' => 'Password salah.',
                 'user' => null,
             ]);
         }
@@ -148,7 +148,7 @@ class UserApiController extends Controller
             ])->save();
             return response()->json([
                 'code' => 200,
-                'message' => 'Login successful.',
+                'message' => 'Login berhasil.',
                 'user' => $user,
                 'token' => $token,
             ]);
@@ -174,7 +174,7 @@ class UserApiController extends Controller
         if($validation->fails()) {
             return response()->json([
                 'code' => 400,
-                'message' => 'Failed to edit profile.',
+                'message' => 'Gagal meng-update profil.',
                 'errors' => $validation->errors(),
                 'user' => null,
             ]);
@@ -206,7 +206,7 @@ class UserApiController extends Controller
         $user->update();
         return response()->json([
             'code' => 200,
-            'message' => 'Profile updated successfully.',
+            'message' => 'Profil berhasil di-update.',
             'user' => $user,
         ]);
     }
@@ -227,7 +227,7 @@ class UserApiController extends Controller
         if($validation->fails()) {
             return response()->json([
                 'code' => 400,
-                'message' => 'Failed to update password.',
+                'message' => 'Gagal meng-update password.',
                 'errors' => $validation->errors(),
                 'user' => null,
             ]);
@@ -237,10 +237,10 @@ class UserApiController extends Controller
         if(!User::checkPassword($request->password, $user->password)){
             return response()->json([
                 'code' => 400,
-                'message' => "Failed to update password.",
+                'message' => "Gagal meng-update password.",
                 'errors' => [
                     'password' => [
-                        'Password is incorrect.'
+                        'Password salah.'
                     ],
                 ],
                 'user' => null,
@@ -251,7 +251,7 @@ class UserApiController extends Controller
         if($user->save()) {
             return response()->json([
                 'code' => 200,
-                'message' => 'Password updated successfully.',
+                'message' => 'Password berhasil di-update.',
                 'user' => $user,
             ]);
         }
@@ -272,7 +272,7 @@ class UserApiController extends Controller
 
         return response()->json([
             'code' => 200,
-            'message' => 'Logged out successfully.',
+            'message' => 'Logout berhasil.',
             'user' => null,
         ]);
     }

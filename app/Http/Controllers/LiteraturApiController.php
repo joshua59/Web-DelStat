@@ -20,7 +20,7 @@ class LiteraturApiController extends Controller
         $literatur = Literatur::getAllLiteratur();
         return response()->json([
             'code' => 200,
-            'message' => 'All literatur retrieved successfully.',
+            'message' => 'Semua literatur berhasil diambil.',
             'literatur_list' => $literatur,
         ]);
     }
@@ -38,7 +38,7 @@ class LiteraturApiController extends Controller
         if(!$literatur){
             return response()->json([
                 'code' => 404,
-                'message' => 'Literatur not found.',
+                'message' => 'Literatur tidak ditemukan.',
                 'literatur' => null,
             ]);
         }
@@ -47,7 +47,7 @@ class LiteraturApiController extends Controller
         $literatur->user = $user;
         return response()->json([
             'code' => 200,
-            'message' => 'Literatur retrieved successfully.',
+            'message' => 'Literatur berhasil diambil.',
             'literatur' => $literatur,
         ]);
     }
@@ -79,7 +79,7 @@ class LiteraturApiController extends Controller
         if ($validation->fails()) {
             return response()->json([
                 'code' => 400,
-                'message' => 'Literatur validation failed.',
+                'message' => 'Validasi literatur gagal.',
                 'errors' => $validation->errors(),
                 'literatur' => null,
             ]);
@@ -106,7 +106,7 @@ class LiteraturApiController extends Controller
 
         return response()->json([
             'code' => 201,
-            'message' => 'Literatur created successfully.',
+            'message' => 'Literatur berhasil dibuat.',
             'literatur' => $literatur,
         ]);
     }
@@ -139,7 +139,7 @@ class LiteraturApiController extends Controller
         if ($validation->fails()) {
             return response()->json([
                 'code' => 400,
-                'message' => 'Literatur validation failed.',
+                'message' => 'Validasi literatur gagal.',
                 'errors' => $validation->errors(),
                 'literatur' => null,
             ]);
@@ -150,7 +150,7 @@ class LiteraturApiController extends Controller
         if(!$literatur) {
             return response()->json([
                 'code' => 404,
-                'message' => 'Literatur not found.',
+                'message' => 'Literatur tidak ditemukan.',
                 'literatur' => null,
             ]);
         }
@@ -177,7 +177,7 @@ class LiteraturApiController extends Controller
 
         return response()->json([
             'code' => 204,
-            'message' => 'Literatur updated successfully.',
+            'message' => 'Literatur berhasil di-update.',
             'literatur' => $literatur,
         ]);
     }
@@ -203,7 +203,7 @@ class LiteraturApiController extends Controller
         if (!$literatur) {
             return response()->json([
                 'code' => 404,
-                'message' => 'Literatur not found.',
+                'message' => 'Literatur tidak ditemukan.',
                 'literatur' => null,
             ]);
         }
@@ -213,7 +213,7 @@ class LiteraturApiController extends Controller
 
         return response()->json([
             'code' => 204,
-            'message' => 'Literatur deleted successfully.',
+            'message' => 'Literatur berhasil dihapus.',
             'literatur' => null,
         ]);
     }

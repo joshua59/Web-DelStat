@@ -27,7 +27,7 @@ class MateriApiController extends Controller
 
         return response()->json([
             'code' => 200,
-            'message' => 'Link video of Materi retrieved successfully',
+            'message' => 'Link video materi berhasil diambil.',
             'materi' => $materi,
         ]);
     }
@@ -60,7 +60,7 @@ class MateriApiController extends Controller
         if ($validation->fails()) {
             return response()->json([
                 'code' => 400,
-                'message' => 'Materi validation failed',
+                'message' => 'Link video materi tidak valid.',
                 'errors' => $validation->errors(),
                 'materi' => null,
             ]);
@@ -86,7 +86,7 @@ class MateriApiController extends Controller
 
         return response()->json([
             'code' => 204,
-            'message' => 'Link video of Materi updated successfully',
+            'message' => 'Link video materi berhasil di-update.',
             'materi' => $materi,
         ]);
     }
