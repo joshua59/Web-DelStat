@@ -24,6 +24,8 @@ use Illuminate\Support\Facades\Route;
 /* Unauthenticated UserApiController */
 Route::post('/login', [UserApiController::class, 'login']);
 Route::post('/register', [UserApiController::class, 'register']);
+Route::post('/forgot-password', [UserApiController::class, 'forgotPassword']);
+Route::post('/change-password', [UserApiController::class, "changePassword"])->name('password.reset');
 /* End of Unauthenticated UserApiController */
 
 /* Unathenticated LiteraturApiController */

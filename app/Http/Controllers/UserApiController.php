@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Mail\Message;
 
 class UserApiController extends Controller
 {
@@ -43,7 +46,7 @@ class UserApiController extends Controller
         ]);
 
         // if validation fails, return error message in JSON format
-        if($validation->fails()) {
+        if ($validation->fails()) {
             return response()->json([
                 'code' => 400,
                 'message' => 'Bad Request',
@@ -62,10 +65,10 @@ class UserApiController extends Controller
         $user->role = User::$ROLE_SISWA;
         $user->foto_profil = User::$FILE_DESTINATION . '/' . 'default.jpg';
 
-        if($request->hasFile('foto_profil')) {
+        if ($request->hasFile('foto_profil')) {
             $file = $request->file('foto_profil');
             $extension = $file->getClientOriginalExtension();
-            $filename = preg_replace('/\s+/', '', $request->nama) . '-' . $user->id .  '.' . $extension;
+            $filename = preg_replace('/\s+/', '', $request->nama) . '-' . $user->id . '.' . $extension;
             $file->move(User::$FILE_DESTINATION, $filename);
 
             $user->foto_profil = User::$FILE_DESTINATION . '/' . $filename;
@@ -96,7 +99,7 @@ class UserApiController extends Controller
         ]);
 
         // if validation fails, return error message in JSON format
-        if($validation->fails()) {
+        if ($validation->fails()) {
             return response()->json([
                 'code' => 400,
                 'message' => 'Bad Request',
@@ -108,7 +111,7 @@ class UserApiController extends Controller
         $user = User::where('email', $request->email)->first();
         // Check if user email exists
         // If user email does not exist, return error message in JSON format
-        if(!$user) {
+        if (!$user) {
             return response()->json([
                 'code' => 401,
                 'message' => 'Email tersebut tidak terdaftar.',
@@ -126,7 +129,7 @@ class UserApiController extends Controller
 
         // Email exists, then check if password is correct
         // If password is incorrect, return error message in JSON format
-        if(!User::checkPassword($request->password, $user->password)) {
+        if (!User::checkPassword($request->password, $user->password)) {
             return response()->json([
                 'code' => 401,
                 'message' => 'Password salah.',
@@ -140,9 +143,9 @@ class UserApiController extends Controller
             'password' => $request->password,
         ];
 
-        if(Auth::attempt($credential)) {
+        if (Auth::attempt($credential)) {
             $user = Auth::user();
-            $token = md5( time() ) . '.' . md5($request->email);
+            $token = md5(time()) . '.' . md5($request->email);
             $user->forceFill([
                 'api_token' => $token,
             ])->save();
@@ -151,6 +154,96 @@ class UserApiController extends Controller
                 'message' => 'Login berhasil.',
                 'user' => $user,
                 'token' => $token,
+            ]);
+        }
+    }
+
+    public function forgotPassword(Request $request)
+    {
+        $validation = Validator::make($request->all(), [
+            'email' => 'required|email',
+        ]);
+        if ($validation->fails()) {
+            return response()->json([
+                'code' => 400,
+                'message' => 'Bad Request',
+                'errors' => $validation->errors(),
+                'user' => null,
+            ]);
+        }
+        try{
+            $status = Password::sendResetLink($request->only('email'));
+            switch ($status) {
+                case Password::RESET_LINK_SENT:
+                    return response()->json([
+                        'code' => 200,
+                        'message' => 'Link reset password telah dikirim ke email anda.',
+                        'user' => null,
+                    ]);
+                case Password::INVALID_USER:
+                    return response()->json([
+                        'code' => 401,
+                        'message' => 'Email tersebut tidak terdaftar.',
+                        'user' => null,
+                    ]);
+            }
+        } catch (\Exception $e) {
+            return response()->json([
+                'code' => 500,
+                'message' => 'Terjadi kesalahan.',
+                'errors' => $e->getMessage(),
+                'user' => null,
+            ]);
+        }
+    }
+
+    public function changePassword(Request $request)
+    {
+        $validation = Validator::make($request->all(), [
+            'token' => 'required',
+            'email' => 'required|email',
+            'password' => 'required',
+            'password_confirmation' => 'required|same:password',
+        ]);
+        if ($validation->fails()) {
+            return response()->json([
+                'code' => 400,
+                'message' => 'Bad Request',
+                'errors' => $validation->errors(),
+                'user' => null,
+            ]);
+        }
+
+        try {
+            $status = Password::reset(
+                $request->only('email', 'password', 'password_confirmation', 'token'),
+                function ($user) use ($request) {
+                    $user->forceFill([
+                        'password' => bcrypt($request->password),
+                    ])->save();
+                    /*event(new PasswordReset($user));*/
+                }
+            );
+            switch ($status) {
+                case Password::PASSWORD_RESET:
+                    return response()->json([
+                        'code' => 200,
+                        'message' => 'Password berhasil diubah.',
+                        'user' => null,
+                    ]);
+                case Password::INVALID_TOKEN:
+                    return response()->json([
+                        'code' => 401,
+                        'message' => 'Token tidak valid.',
+                        'user' => null,
+                    ]);
+            }
+        } catch (\Exception $e) {
+            return response()->json([
+                'code' => 500,
+                'message' => 'Terjadi kesalahan.',
+                'errors' => $e->getMessage(),
+                'user' => null,
             ]);
         }
     }
@@ -171,7 +264,7 @@ class UserApiController extends Controller
             'foto_profil' => 'image|mimes:jpeg,png,jpg',
         ]);
 
-        if($validation->fails()) {
+        if ($validation->fails()) {
             return response()->json([
                 'code' => 400,
                 'message' => 'Gagal meng-update profil.',
@@ -186,15 +279,14 @@ class UserApiController extends Controller
         $user->no_hp = $request->no_hp;
         $user->jenjang = $request->jenjang;
 
-        if($request->hasFile('foto_profil')) {
+        if ($request->hasFile('foto_profil')) {
             $file = $request->file('foto_profil');
             $extension = $file->getClientOriginalExtension();
             $filename = preg_replace('/\s+/', '', $request->nama) . '-' . $user->id . '-' . date("d-m-Y_H-i-s") . '.' . $extension;
 
-            if($user->foto_profil == User::$FILE_DESTINATION . '/' . 'default.jpg') {
+            if ($user->foto_profil == User::$FILE_DESTINATION . '/' . 'default.jpg') {
                 $user->foto_profil = User::$FILE_DESTINATION . '/' . $filename;
-            }
-            else {
+            } else {
                 unlink($user->foto_profil);
                 $user->foto_profil = User::$FILE_DESTINATION . '/' . $filename;
             }
@@ -224,7 +316,7 @@ class UserApiController extends Controller
             'new_password' => 'required|min:8|confirmed', // name of fields must be new_password and new_password_confirmation
         ]);
 
-        if($validation->fails()) {
+        if ($validation->fails()) {
             return response()->json([
                 'code' => 400,
                 'message' => 'Gagal meng-update password.',
@@ -234,7 +326,7 @@ class UserApiController extends Controller
         }
 
         $user = User::find(Auth::user()->id);
-        if(!User::checkPassword($request->password, $user->password)){
+        if (!User::checkPassword($request->password, $user->password)) {
             return response()->json([
                 'code' => 400,
                 'message' => "Gagal meng-update password.",
@@ -248,7 +340,7 @@ class UserApiController extends Controller
         }
 
         $user->password = bcrypt($request->new_password);
-        if($user->save()) {
+        if ($user->save()) {
             return response()->json([
                 'code' => 200,
                 'message' => 'Password berhasil di-update.',
@@ -286,7 +378,7 @@ class UserApiController extends Controller
      */
     public function findUsersByRole()
     {
-        if(Auth::user()->role == User::$ROLE_SISWA) {
+        if (Auth::user()->role == User::$ROLE_SISWA) {
             $listUser = User::where('role', User::$ROLE_DOSEN)->get();
             return response()->json([
                 'code' => 200,
@@ -295,7 +387,7 @@ class UserApiController extends Controller
             ]);
         }
 
-        if(Auth::user()->role == User::$ROLE_DOSEN) {
+        if (Auth::user()->role == User::$ROLE_DOSEN) {
             $listUser = User::where('role', User::$ROLE_SISWA)->get();
             return response()->json([
                 'code' => 200,
