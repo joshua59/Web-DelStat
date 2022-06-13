@@ -33,7 +33,7 @@
                 <div class="image-input image-input-outline" data-kt-image-input="true">
                     <!--begin::Preview existing avatar-->
                     <div class="image-input-wrapper w-125px h-125px">
-                        <img id="output"class="w-125px h-125px" src="{{asset($user->image)}}" >
+                        <img id="output"class="w-125px h-125px" src="{{asset($user->foto_profil)}}" >
                     </div>
                     <!--end::Preview existing avatar-->
                     <!--begin::Label-->
@@ -102,6 +102,7 @@
             </div>
             <!--begin::Input group-->
             @if($user->id)
+                <label for="password_users" class="required fw-bold fs-6 mb-2">Anda Tidak Dapat Mengubah Password</label>
                 <input type="hidden" id="password_users" name="password" class="form-control form-control-solid mb-3 mb-lg-0"  value="{{$user->password}}"/>
             @else
             <div class="fv-row mb-7">

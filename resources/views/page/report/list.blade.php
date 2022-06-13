@@ -12,7 +12,6 @@
                 <th class="min-w-125px">Nama user</th>
                 <th class="min-w-125px">ID Kuis</th>
                 <th class="min-w-125px">Nilai Kuis</th>
-                <th class="min-w-125px">ID User</th>
                 <th class="min-w-125px">Created at</th>
             </tr>
             <!--end::Table row-->
@@ -46,9 +45,6 @@
                 <td>{{$item->nilai_kuis}}</td>
                 <!--end::Role=-->
                 <!--begin::Last login=-->
-                <td>
-                    <div class="badge badge-light fw-bolder">{{$item->id_user}}</div>
-                </td>
                 <!--end::Last login=-->
                 <!--begin::Joined-->
                 <td>{{$item->created_at}}</td>

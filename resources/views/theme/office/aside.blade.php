@@ -305,14 +305,16 @@
                         </div>
                     </div>
                 </div> --}}
-                <div class="menu-item py-2">
+
+                {{-- <div class="menu-item py-2">
                     <a class="menu-link menu-center {{ request()->is('login') ? 'active' : '' }}" href="{{route('home')}}" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
                         <span class="menu-icon me-0">
                             <i class="bi bi-book fs-2"></i>
                         </span>
                         <span class="menu-title">Materi</span>
                     </a>
-                </div>
+                </div> --}}
+
                 <div class="menu-item py-2">
                     <a class="menu-link menu-center {{ request()->is('literatur') ? 'active' : '' }}" href="{{route('literatur.index')}}" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
                         <span class="menu-icon me-0">
@@ -337,6 +339,7 @@
                         <span class="menu-title">Hasil Kuis</span>
                     </a>
                 </div>
+                @if(Auth::user()->role == 'Admin')
                 <div class="menu-item py-2">
                     <a class="menu-link menu-center {{ request()->is('users') ? 'active' : '' }}" href="{{route('users.index')}}" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
                         <span class="menu-icon me-0">
@@ -345,6 +348,7 @@
                         <span class="menu-title">Users</span>
                     </a>
                 </div>
+                @endif
                 
             </div>
             

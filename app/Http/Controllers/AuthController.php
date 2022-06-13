@@ -32,7 +32,7 @@ class AuthController extends Controller
         }else{
             return response()->json([
                 'alert' => 'error',
-                'message' => 'Maaf, sepertinya ada kesalahan, silahkan coba lagi.',
+                'message' => 'Maaf, email atau password anda salah, silahkan coba lagi.',
             ]);
         }
     }

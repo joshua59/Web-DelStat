@@ -44,7 +44,7 @@
                     <!--end::Avatar-->
                     <!--begin::User details-->
                     <div class="d-flex flex-column">
-                        <a href="storage/{{$item->file}}" class="text-gray-800 text-hover-primary mb-1">{{$item->judul}}</a>
+                        <a href="{{$item->file}}" class="text-gray-800 text-hover-primary mb-1">{{$item->judul}}</a>
                     </div>
                     <!--begin::User details-->
                 </td>
