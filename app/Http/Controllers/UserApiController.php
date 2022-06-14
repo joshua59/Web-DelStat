@@ -171,7 +171,7 @@ class UserApiController extends Controller
                 'user' => null,
             ]);
         }
-        try{
+        try {
             $status = Password::sendResetLink($request->only('email'));
             switch ($status) {
                 case Password::RESET_LINK_SENT:
@@ -182,8 +182,13 @@ class UserApiController extends Controller
                     ]);
                 case Password::INVALID_USER:
                     return response()->json([
-                        'code' => 401,
+                        'code' => 400,
                         'message' => 'Email tersebut tidak terdaftar.',
+                        'errors' => [
+                            'email' => [
+                                'Email tersebut tidak terdaftar.',
+                            ],
+                        ],
                         'user' => null,
                     ]);
             }
