@@ -17,7 +17,8 @@ return new class extends Migration
             $table->id();
             $table->string('judul');
             $table->string('file');
-            $table->string('deskripsi');
+            $table->string('deskripsi', 6144);
+            $table->string('status')->default('Dipesan');
             $table->unsignedBigInteger('id_user');
             $table->foreign('id_user')->references('id')->on('users');
             $table->timestamps();

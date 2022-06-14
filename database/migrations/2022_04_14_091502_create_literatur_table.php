@@ -16,6 +16,8 @@ return new class extends Migration
         Schema::create('literatur', function (Blueprint $table) {
             $table->id();
             $table->string('judul');
+            $table->string('penulis');
+            $table->integer('tahun_terbit');
             $table->string('tag');
             $table->string('file');
             $table->unsignedBigInteger('id_user');

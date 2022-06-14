@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Facades\Hash;
+use \DateTimeInterface;
 
 class User extends Authenticatable
 {
@@ -20,6 +22,7 @@ class User extends Authenticatable
     protected $fillable = [
         'nama',
         'email',
+        'no_hp',
         'password',
         'foto_profil',
         'role',
@@ -34,6 +37,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'api_token',
     ];
 
     /**
@@ -44,4 +48,49 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * The attributes that define directory for uploaded files of this model.
+     * @var string
+     */
+    public static string $FILE_DESTINATION = 'uploaded/profile-pictures';
+
+    /**
+     * The class attributes that define roles that can be assigned to this model.
+     * @var string
+     */
+    public static string $ROLE_ADMIN = 'Admin';
+    public static string $ROLE_DOSEN = 'Dosen';
+    public static string $ROLE_SISWA = 'Siswa';
+
+    /**
+     * Check password given by user with the encrypted password
+     * from user that is found using the already found email.
+     *
+     * @param $password
+     * @return bool
+     */
+    public static function checkPassword($password, $encryptedPassword): bool
+    {
+        return Hash::check($password, $encryptedPassword);
+    }
+
+
+    /**
+     * Prepare a date for array / JSON serialization.
+     *
+     * @param \DateTimeInterface $date
+     * @return string
+     */
+    protected function serializeDate(DateTimeInterface $date)
+    {
+        /*return $date->format('d M Y, H:i:s');*/
+        $long = strtotime($date->format('Y-m-d H:i:s'));
+        return (string)$long;
+    }
+
+    public function getImageAttribute()
+    {
+        return asset('storage/' . $this->foto_profil);
+    }
 }
