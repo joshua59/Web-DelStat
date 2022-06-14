@@ -55,7 +55,7 @@ class UsersSeeder extends Seeder
             'email' => 'matthewwalfredoo@gmail.com',
             'no_hp' => '08123456789',
             'password' => bcrypt('12345678'),
-            'jenjang' => 'Siswa',
+            'jenjang' => 'Mahasiswa',
             'foto_profil' => User::$FILE_DESTINATION . '/' . 'default.jpg',
             'role' => 'Siswa',
         ]);
@@ -65,7 +65,7 @@ class UsersSeeder extends Seeder
             'email' => 'joshuasilitonga@gmail.com',
             'no_hp' => '08123456788',
             'password' => bcrypt('12345678'),
-            'jenjang' => 'Siswa',
+            'jenjang' => 'Mahasiswa',
             'foto_profil' => User::$FILE_DESTINATION . '/' . 'default.jpg',
             'role' => 'Siswa',
         ]);
@@ -75,7 +75,7 @@ class UsersSeeder extends Seeder
             'email' => 'kevinnainggolan@gmail.com',
             'no_hp' => '08123456787',
             'password' => bcrypt('12345678'),
-            'jenjang' => 'Siswa',
+            'jenjang' => 'Mahasiswa',
             'foto_profil' => User::$FILE_DESTINATION . '/' . 'default.jpg',
             'role' => 'Siswa',
         ]);
@@ -85,7 +85,7 @@ class UsersSeeder extends Seeder
             'email' => 'dewasembiring@gmail.com',
             'no_hp' => '08123456786',
             'password' => bcrypt('12345678'),
-            'jenjang' => 'Siswa',
+            'jenjang' => 'Mahasiswa',
             'foto_profil' => User::$FILE_DESTINATION . '/' . 'default.jpg',
             'role' => 'Siswa',
         ]);
@@ -95,7 +95,7 @@ class UsersSeeder extends Seeder
             'email' => 'rutferwati@gmail.com',
             'no_hp' => '08123456785',
             'password' => bcrypt('12345678'),
-            'jenjang' => 'Siswa',
+            'jenjang' => 'Mahasiswa',
             'foto_profil' => User::$FILE_DESTINATION . '/' . 'default.jpg',
             'role' => 'Siswa',
         ]);
