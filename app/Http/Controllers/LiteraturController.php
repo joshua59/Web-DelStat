@@ -52,7 +52,7 @@ class LiteraturController extends Controller
                 'penulis' => 'required',
                 'tahun_terbit' => 'required|numeric|digits:4',
                 'tag' => 'required',
-                'file' => 'required|mimes:pdf'
+                'file' => 'required|mimes:pdf,doc,docx,ppt,pptx,xls,xlsx,zip,rar,7z'
             ]);
         }catch (Exception $e) {
             return response()->json([
@@ -115,9 +115,8 @@ class LiteraturController extends Controller
     {
         try {
             if(request()->file('file')){
-                Storage::delete($literatur->file);
-                $file = request()->file('file')->store("file_literatur");
-                $literatur->file = $file;
+                unlink($literatur->file);
+                $this->extracted($request, $literatur);
             }
             $literatur->judul = $request->judul;
             $literatur->penulis = $request->penulis;
