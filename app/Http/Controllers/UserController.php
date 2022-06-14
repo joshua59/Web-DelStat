@@ -73,7 +73,7 @@ class UserController extends Controller
             $user->nama = $request->nama;
             $user->email = $request->email;
             $user->no_hp = $request->no_hp;
-            $user->password = bcrypt('password');
+            $user->password = bcrypt($request->password);
             $user->jenjang = $request->jenjang;
             $user->role = $request->role;
 
