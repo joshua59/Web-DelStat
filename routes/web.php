@@ -25,6 +25,7 @@ use App\Http\Controllers\AnalisisDataController;
 
 Route::get('auth',[AuthController::class, 'index'])->name('auth');
 Route::post('login',[AuthController::class, 'do_login'])->name('login');
+Route::get('hasilkuis/export_pdf',[HasilKuisController::class, 'export_pdf'])->name('hasilkuis.pdf');
 
 Route::group(['middleware' => 'auth:web'], function () {
     Route::get('logout',[AuthController::class, 'do_logout'])->name('logout');
@@ -46,10 +47,9 @@ Route::group(['middleware' => 'auth:web','verified'], function () {
         Route::delete('destroy/{user}', [UserController::class, 'destroy'])->name('destroy');
         Route::post('editPassword', [UserController::class, 'editPassword'])->name('editPassword');
     });
-    
+
     Route::prefix('hasilkuis')->name('hasilkuis.')->group(function(){
         Route::get('',  [HasilKuisController::class, 'index'])->name('index');
-        Route::get('export_pdf',[HasilKuisController::class, 'export_pdf'])->name('pdf');
     });
 
     Route::prefix('literatur')->name('literatur.')->group(function(){

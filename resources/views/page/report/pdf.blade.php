@@ -25,8 +25,41 @@
                 <tr align="center">
                     <td>{{ $loop->iteration }}</td>
                     <td align="left">{{ $item->nama_user }}</td>
-                    <td>{{ $item->id_kuis }}</td>
-                    <td>{{ $item->nilai_kuis }}</td>
+                    <td align="left">
+                        @switch($item->id_kuis)
+                            @case(1)
+                                Kuis Konsep Peluang
+                                @break
+                            @case(2)
+                                Kuis Variabel Acak
+                                @break
+                            @case(3)
+                                Kuis Distribusi Probabilitas Diskrit
+                                @break
+                            @case(4)
+                                Kuis Distribusi Probabilitas Kontinu
+                                @break
+                            @case(5)
+                                Kuis Pengantar Statistika dan Analisis
+                                @break
+                            @case(6)
+                                Kuis Teknik Sampling
+                                @break
+                            @case(7)
+                                Kuis ANOVA
+                                @break
+                            @case(8)
+                                Kuis Konsep Estimasi
+                                @break
+                            @case(9)
+                                Kuis Pengujian Hipotesis
+                                @break
+                            @case(10)
+                                Kuis Regresi Linier dan Korelasi
+                                @break
+                        @endswitch
+                    </td>
+                    <td align="left">{{ $item->nilai_kuis }}</td>
                     <td>{{ $item->created_at }}</td>
                 </tr>
             @endforeach
