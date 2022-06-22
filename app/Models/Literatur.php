@@ -53,6 +53,62 @@ class Literatur extends Model
     }
 
     /**
+     * This static method is used to get data of this model by its judul.
+     *
+     * @param string $judul
+     * @return mixed
+     */
+    public static function getLiteraturByJudul(string $judul)
+    {
+        return self::where('judul', 'like', '%' . $judul . '%')->get([
+            'id',
+            'judul',
+            'tag',
+            'penulis',
+            'tahun_terbit',
+            'updated_at',
+        ]);
+    }
+
+    /**
+     * This static method is used to get data of this model by its tag.
+     *
+     * @param string $tag
+     * @return mixed
+     */
+    public static function getLiteraturByTag(string $tag)
+    {
+        return self::where('tag', 'like', '%' . $tag . '%')->get([
+            'id',
+            'judul',
+            'tag',
+            'penulis',
+            'tahun_terbit',
+            'updated_at',
+        ]);
+    }
+
+    /**
+     * This static method is used to get data of this model by its judul and tag.
+     *
+     * @param string $judul
+     * @param string $tag
+     * @return mixed
+     */
+    public static function getLiteraturByJudulAndTag(string $judul, string $tag)
+    {
+            return self::where('judul', 'like', '%' . $judul . '%')
+            ->where('tag', 'like', '%' . $tag . '%')
+            ->get([
+                'id',
+                'judul',
+                'tag',
+                'penulis',
+                'tahun_terbit',
+                'updated_at',
+            ]); }
+
+    /**
      * This static method is used to get one data of this model by id.
      *
      * @param int $id
@@ -75,7 +131,7 @@ class Literatur extends Model
     /**
      * Prepare a date for array / JSON serialization.
      *
-     * @param  \DateTimeInterface  $date
+     * @param \DateTimeInterface $date
      * @return string
      */
     protected function serializeDate(DateTimeInterface $date)

@@ -12,15 +12,44 @@ class LiteraturApiController extends Controller
 {
     /**
      * Get all Literatur.
+     * If any query parameter is passed, it will be used to filter the result.
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function index(Request $request)
     {
-        $literatur = Literatur::getAllLiteratur();
+        $judul = null;
+        $tag = null;
+        $literatur = null;
+        $message = null;
+
+        if ($request->has('judul')) {
+            $judul = $request->judul;
+        }
+        if ($request->has('tag')) {
+            $tag = $request->tag;
+        }
+
+        if($judul != null && $tag != null) {
+            $literatur = Literatur::getLiteraturByJudulAndTag($judul, $tag);
+            $message = 'Literatur dengan judul ' . $judul . ' dan tag ' . $tag . ' diambil.';
+        }
+        if($judul != null && $tag == null) {
+            $literatur = Literatur::getLiteraturByJudul($judul);
+            $message = 'Literatur dengan judul ' . $judul . ' diambil.';
+        }
+        if($judul == null && $tag != null) {
+            $literatur = Literatur::getLiteraturByTag($tag);
+            $message = 'Literatur dengan tag ' . $tag . ' diambil.';
+        }
+        if($judul == null && $tag == null) {
+            $literatur = Literatur::getAllLiteratur();
+            $message = 'Semua literatur berhasil diambil.';
+        }
+
         return response()->json([
             'code' => 200,
-            'message' => 'Semua literatur berhasil diambil.',
+            'message' => $message,
             'literatur_list' => $literatur,
         ]);
     }
@@ -35,7 +64,7 @@ class LiteraturApiController extends Controller
     {
         $literatur = Literatur::getLiteraturById($id);
 
-        if(!$literatur){
+        if (!$literatur) {
             return response()->json([
                 'code' => 404,
                 'message' => 'Literatur tidak ditemukan.',
@@ -147,7 +176,7 @@ class LiteraturApiController extends Controller
 
         $literatur = Literatur::find($id);
 
-        if(!$literatur) {
+        if (!$literatur) {
             return response()->json([
                 'code' => 404,
                 'message' => 'Literatur tidak ditemukan.',
