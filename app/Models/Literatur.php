@@ -60,7 +60,9 @@ class Literatur extends Model
      */
     public static function getLiteraturByJudul(string $judul)
     {
-        return self::where('judul', 'like', '%' . $judul . '%')->get([
+        return self::where('judul', 'like', '%' . $judul . '%')
+            ->orderBy('updated_at', 'desc')
+            ->get([
             'id',
             'judul',
             'tag',
@@ -78,7 +80,9 @@ class Literatur extends Model
      */
     public static function getLiteraturByTag(string $tag)
     {
-        return self::where('tag', 'like', '%' . $tag . '%')->get([
+        return self::where('tag', 'like', '%' . $tag . '%')
+            ->orderBy('updated_at', 'desc')
+            ->get([
             'id',
             'judul',
             'tag',
@@ -97,8 +101,9 @@ class Literatur extends Model
      */
     public static function getLiteraturByJudulAndTag(string $judul, string $tag)
     {
-            return self::where('judul', 'like', '%' . $judul . '%')
+        return self::where('judul', 'like', '%' . $judul . '%')
             ->where('tag', 'like', '%' . $tag . '%')
+            ->orderBy('updated_at', 'desc')
             ->get([
                 'id',
                 'judul',
@@ -106,7 +111,8 @@ class Literatur extends Model
                 'penulis',
                 'tahun_terbit',
                 'updated_at',
-            ]); }
+            ]);
+    }
 
     /**
      * This static method is used to get one data of this model by id.
