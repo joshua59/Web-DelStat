@@ -83,10 +83,9 @@
                    title="Masukkan tag yang berhubungan dengan literatur ini"></i>
             </label>
             <!--end::Label-->
-            <input class="form-control form-control-solid" value="{{$literatur->tag}}" name="tag" id="tag_literatur"/>
             @if($literatur->tag == null)
-                <select class="form-select form-select-sm" name="tag">
-                    <option value='0' disabled selected>Tag</option>
+                <select class="form-control form-control-solid form-select form-select-sm" name="tag">
+                    <option disabled selected>Tag</option>
                     <option value='Konsep Peluang'>Konsep Peluang</option>
                     <option value='Variabel Acak'>Variabel Acak</option>
                     <option value='Distribusi Probabilitas Diskrit'>Distribusi Probabilitas Diskrit</option>
