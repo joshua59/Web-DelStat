@@ -77,7 +77,6 @@
                     <select class="form-select form-select-sm" name="status"
                             onchange='if(this.value != 0) { this.form.submit(); }'>
                         <option value='0' disabled selected>Status</option>
-                        <option value='Dipesan'>Dipesan</option>
                         <option value='Diproses'>Diproses</option>
                         <option value='Selesai'>Selesai</option>
                         <option value='Ditolak'>Ditolak</option>
