@@ -99,34 +99,34 @@
                 </select>
             @else
                 <select class="form-select form-select-sm" name="tag">
-                    <option value='Konsep Peluang' {{ $literatur->tag == 'Konsep Peluang' ?? 'selected' }}>
+                    <option value='Konsep Peluang' {{ $literatur->tag == 'Konsep Peluang' ? 'selected' : '' }}>
                         Konsep Peluang
                     </option>
-                    <option value='Variabel Acak' {{ $literatur->tag == 'Variabel Acak' ?? 'selected' }}>
+                    <option value='Variabel Acak' {{ $literatur->tag == 'Variabel Acak' ? 'selected' : '' }}>
                         Variabel Acak
                     </option>
-                    <option value='Distribusi Probabilitas Diskrit' {{ $literatur->tag == 'Distribusi Probabilitas Diskrit' ?? 'selected' }}>
+                    <option value='Distribusi Probabilitas Diskrit' {{ $literatur->tag == 'Distribusi Probabilitas Diskrit' ? 'selected' : '' }}>
                         Distribusi Probabilitas Diskrit
                     </option>
-                    <option value='Distribusi Probabilitas Kontinu' {{ $literatur->tag == 'Distribusi Probabilitas Kontinu' ?? 'selected' }}>
+                    <option value='Distribusi Probabilitas Kontinu' {{ $literatur->tag == 'Distribusi Probabilitas Kontinu' ? 'selected' : '' }}>
                         Distribusi Probabilitas Kontinu
                     </option>
-                    <option value='Pengantar Statistik dan Analisis Data' {{ $literatur->tag == 'Pengantar Statistik dan Analisis Data' ?? 'selected' }}>
+                    <option value='Pengantar Statistik dan Analisis Data' {{ $literatur->tag == 'Pengantar Statistik dan Analisis Data' ? 'selected' : '' }}>
                         Pengantar Statistik dan Analisis Data
                     </option>
-                    <option value='Teknik Sampling' {{ $literatur->tag == 'Teknik Sampling' ?? 'selected' }}>
+                    <option value='Teknik Sampling' {{ $literatur->tag == 'Teknik Sampling' ? 'selected' : '' }}>
                         Teknik Sampling
                     </option>
-                    <option value='ANOVA' {{ $literatur->tag == 'ANOVA' ?? 'selected' }}>
+                    <option value='ANOVA' {{ $literatur->tag == 'ANOVA' ? 'selected' : '' }}>
                         ANOVA
                     </option>
-                    <option value='Konsep Estimasi' {{ $literatur->tag == 'Konsep Estimasi' ?? 'selected' }}>
+                    <option value='Konsep Estimasi' {{ $literatur->tag == 'Konsep Estimasi' ? 'selected' : '' }}>
                         Konsep Estimasi
                     </option>
-                    <option value='Pengujian Hipotesis' {{ $literatur->tag == 'Pengujian Hipotesis' ?? 'selected' }}>
+                    <option value='Pengujian Hipotesis' {{ $literatur->tag == 'Pengujian Hipotesis' ? 'selected' : '' }}>
                         Pengujian Hipotesis
                     </option>
-                    <option value='Regresi Korelasi' {{ $literatur->tag == 'Regresi Korelasi' ?? 'selected' }}>
+                    <option value='Regresi Korelasi' {{ $literatur->tag == 'Regresi Korelasi' ? 'selected' : '' }}>
                         Regresi Korelasi
                     </option>
                 </select>
