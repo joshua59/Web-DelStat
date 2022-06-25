@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 use PDF;
+use App\Exports\HasilKuisExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class HasilKuisController extends Controller
 {
@@ -21,6 +23,11 @@ class HasilKuisController extends Controller
             return view('page.report.list', compact('hasilkuis'));
         }
         return view('page.report.main');
+    }
+
+    public function export()
+    {
+        return Excel::download(new HasilKuisExport, 'hasilkuis.xlsx');
     }
 
     public function export_pdf()

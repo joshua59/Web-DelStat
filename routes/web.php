@@ -7,6 +7,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\HasilKuisController;
 use App\Http\Controllers\LiteraturController;
 use App\Http\Controllers\AnalisisDataController;
+use App\Exports\HasilKuisExport;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -26,6 +27,7 @@ use App\Http\Controllers\AnalisisDataController;
 Route::get('auth',[AuthController::class, 'index'])->name('auth');
 Route::post('login',[AuthController::class, 'do_login'])->name('login');
 Route::get('hasilkuis/export_pdf',[HasilKuisController::class, 'export_pdf'])->name('hasilkuis.pdf');
+Route::get('hasilkuis/export',[HasilKuisController::class, 'export'])->name('hasilkuis.export');
 
 Route::group(['middleware' => 'auth:web'], function () {
     Route::get('logout',[AuthController::class, 'do_logout'])->name('logout');
