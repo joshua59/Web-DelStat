@@ -115,7 +115,9 @@ class LiteraturController extends Controller
     {
         try {
             if(request()->file('file')){
-                unlink($literatur->file);
+                if(file_exists($literatur->file)){
+                    unlink($literatur->file);
+                }
                 $this->extracted($request, $literatur);
             }
             $literatur->judul = $request->judul;
