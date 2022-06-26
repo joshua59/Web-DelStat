@@ -292,7 +292,9 @@ class UserApiController extends Controller
             if ($user->foto_profil == User::$FILE_DESTINATION . '/' . 'default.jpg') {
                 $user->foto_profil = User::$FILE_DESTINATION . '/' . $filename;
             } else {
-                unlink($user->foto_profil);
+                if(file_exists($user->foto_profil)) {
+                    unlink($user->foto_profil);
+                }
                 $user->foto_profil = User::$FILE_DESTINATION . '/' . $filename;
             }
 
