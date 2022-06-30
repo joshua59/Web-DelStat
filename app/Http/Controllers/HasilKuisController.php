@@ -27,13 +27,17 @@ class HasilKuisController extends Controller
 
     public function export()
     {
-        return Excel::download(new HasilKuisExport, 'hasilkuis.xlsx');
+        $date = date('d-M-Y');
+        $fileName = "Hasil_Kuis-$date";
+        return Excel::download(new HasilKuisExport, $fileName . '.xlsx');
     }
 
     public function export_pdf()
     {
         $hasilkuis = HasilKuis::all();
-        $pdf = PDF::loadView('page.report.pdf', compact('hasilkuis'));
+        $date = date('d-M-Y');
+        $fileName = "Hasil_Kuis-$date";
+        $pdf = PDF::loadView($fileName . '.pdf', compact('hasilkuis'));
         return $pdf->download('hasil_kuis.pdf');
     }
 }

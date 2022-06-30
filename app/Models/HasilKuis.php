@@ -66,6 +66,32 @@ class HasilKuis extends Model
             ->get();
     }
 
+    public static function getNamaKuisByIdKuis(int $id_kuis)
+    {
+        switch ($id_kuis) {
+            case 1:
+                return 'Kuis Konsep Peluang';
+            case 2:
+                return 'Kuis Variabel Acak';
+            case 3:
+                return 'Kuis Distribusi Probabilitas Diskrit';
+            case 4:
+                return 'Kuis Distribusi Probabilitas Kontinu';
+            case 5:
+                return 'Kuis Pengantar Statistika dan Analisis Data';
+            case 6:
+                return 'Kuis Teknik Sampling';
+            case 7:
+                return 'Kuis ANOVA';
+            case 8:
+                return 'Kuis Konsep Estimasi';
+            case 9:
+                return 'Kuis Pengujian Hipotesis';
+            case 10:
+                return 'Kuis Regresi Linier dan Korelasi';
+        }
+    }
+
     /**
      * Prepare a date for array / JSON serialization.
      *
