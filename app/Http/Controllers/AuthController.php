@@ -25,6 +25,13 @@ class AuthController extends Controller
     {
         $datas=$request->only('email', 'password');
         if(Auth::attempt($datas)){
+            if(Auth::guard('web')->user()->role == 'Siswa') {
+                $this->do_logout();
+                return response()->json([
+                    'alert' => 'error',
+                    'message' => 'Anda tidak memiliki akses untuk mengakses halaman ini.',
+                ]);
+            }
             return response()->json([
                 'alert' => 'success',
                 'message' => 'Selamat datang '. Auth::guard('web')->user()->nama,
