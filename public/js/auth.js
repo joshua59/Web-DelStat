@@ -49,3 +49,44 @@ function auth(button,form,uri,title)
         },
     });
 }
+
+function changePassword(button, form, uri, title)
+{
+    $(button).submit(function () {
+        return false;
+    });
+    let data = $(form).serialize();
+    $(button).prop("disabled", true);
+    $(button).html("Please wait");
+    $.ajax({
+        type: "POST",
+        url: uri,
+        data: data,
+        dataType: 'json',
+        success: function (response) {
+            if (response.code == 200) {
+                success_message(response.message);
+                $(form)[0].reset();
+                setTimeout(function () {
+                    $(button).prop("disabled", false);
+                    $(button).html(title);
+                    if(title == "Reset Password"){
+                        location.replace("/auth");
+                    }else{
+                        container.classList.remove("sign-up-mode");
+                        $("#username_login").focus();
+                    }
+                }, 2000);
+            } else {
+                error_message(response.message);
+                setTimeout(function () {
+                    $(button).prop("disabled", false);
+                    $(button).html(title);
+                    if(response.message == "Token tidak valid.") {
+                        location.replace("/auth");
+                    }
+                }, 2000);
+            }
+        },
+    });
+}

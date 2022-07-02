@@ -213,7 +213,7 @@ class UserApiController extends Controller
         if ($validation->fails()) {
             return response()->json([
                 'code' => 400,
-                'message' => 'Bad Request',
+                'message' => $validation->errors()->first(),
                 'errors' => $validation->errors(),
                 'user' => null,
             ]);

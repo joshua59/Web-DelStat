@@ -231,4 +231,9 @@ class UserController extends Controller
             ]);
         }
     }
+
+    public function changePassword()
+    {
+        return view('page.users.change_password');
+    }
 }

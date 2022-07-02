@@ -26,6 +26,7 @@ use App\Exports\HasilKuisExport;
 
 Route::get('auth',[AuthController::class, 'index'])->name('auth');
 Route::post('login',[AuthController::class, 'do_login'])->name('login');
+Route::get('/change-password', [UserController::class, "changePassword"])->name('password.reset');
 Route::get('hasilkuis/export_pdf',[HasilKuisController::class, 'export_pdf'])->name('hasilkuis.pdf');
 Route::get('hasilkuis/export',[HasilKuisController::class, 'export'])->name('hasilkuis.export');
 
