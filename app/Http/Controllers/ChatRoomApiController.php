@@ -41,10 +41,11 @@ class ChatRoomApiController extends Controller
                 // and the date when the chat room was last updated
                 // (updated is when the chat room was last accessed or when the last message was sent)
                 // So, if user Siswa lets the chat room be deleted automatically, then the chat room will be deleted after 28 days
-                $daysDiff = $cr->getDiffInDaysAttribute();
+
+                /*$daysDiff = $cr->getDiffInDaysAttribute();
                 if($daysDiff >= 28 && $cr->is_automatic_deleted == true){
                     $cr->delete();
-                }
+                }*/
 
                 $cr->user = User::find($cr->id_user_1, ['nama', 'foto_profil']); // This will take the data of user that Dosen chats with.
             }
@@ -67,10 +68,11 @@ class ChatRoomApiController extends Controller
                 // and the date when the chat room was last updated
                 // (updated is when the chat room was last accessed or when the last message was sent)
                 // So, if user Siswa lets the chat room be deleted automatically, then the chat room will be deleted after 28 days
-                $daysDiff = $cr->getDiffInDaysAttribute();
+
+                /*$daysDiff = $cr->getDiffInDaysAttribute();
                 if($daysDiff >= 28 && $cr->is_automatic_deleted == true){
                     $cr->delete();
-                }
+                }*/
 
                 $cr->user = User::find($cr->id_user_2, ['nama', 'foto_profil']); // This will take the data of user that Siswa chats with.
             }
